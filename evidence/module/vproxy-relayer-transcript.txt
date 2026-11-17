@@ -1,0 +1,12 @@
+# relayer fetch-attest via verified_proxy_module JSON-RPC endpoint — 2026-11-06T10:41:21Z, rfp021 (development commit of 2026-11-06), x86_64-linux; proxy = the headless daemon in evidence/module/vproxy-transcript.txt (port 18545, tunnelled)
+
+# 1) receipt log + ancestry. --exec points at a closed port: every read below must come from the verified endpoint (headers, receipts, 5 ancestry headers by number).
+$ rfp021 fetch-attest --block-hash 0x94431b5778b0a3b401ab7092d91a97226a653d64867db2ab5130658748e0106b --address 0x0 --tx-index 0 --log-index 0 --anchor 0x5a47159c98792e52c457d444657d2668d03ad2e49bcc988211365fa023d59b18 --exec http://127.0.0.1:1 --exec-verified http://127.0.0.1:18545 --out log.json
+wrote /tmp/vp-log.json (header rlp 668 bytes; account nodes 0, storage nodes 0, receipt nodes 3, ancestry 5)
+
+# 2) WETH slot 0: header via the verified endpoint, eth_getProof raw (tenderly, eth_rpc_module).
+$ rfp021 fetch-attest --block-hash 0x94431b5778b0a3b401ab7092d91a97226a653d64867db2ab5130658748e0106b --address 0x7b79995e5f793a07bc00c21412e50ecae098e7f9 --slot 0x0 --exec-verified http://127.0.0.1:18545 --out weth.json
+wrote /tmp/vp-weth.json (header rlp 687 bytes; account nodes 11, storage nodes 6, receipt nodes 0, ancestry 0)
+
+# 3) same as 2) with --exec closed: eth_getProof is raw, so it fails (the proxy does not serve it).
+Error: eth_getProof: no answer within 60000ms: error sending request for url (http://127.0.0.1:1/): client error (Connect): tcp connect error: Connection timed out (os error 110)

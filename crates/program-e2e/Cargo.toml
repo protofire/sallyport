@@ -1,0 +1,26 @@
+[package]
+name = "program-e2e"
+version = "0.1.0"
+edition.workspace = true
+description = "E2E client: deploy the RFP-021 programs to a local LEZ standalone sequencer and run Init → update → Attest → claim"
+
+[dependencies]
+program-tests = { path = "../program-tests" }
+program-methods = { path = "../program-methods" }
+attest-program = { path = "../attest-program", features = ["witness"] }
+consumers = { path = "../consumers" }
+lc-core = { path = "../lc-core" }
+inclusion = { path = "../inclusion" }
+lez-client = { path = "../lez-client", default-features = false } # prefers_single_tx routing
+alloy-primitives = "1"
+borsh = "1"
+serde_json = "1"
+hex = "0.4"
+risc0-binfmt = "3.0.2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+common = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+wallet = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+program_loader_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+sequencer_service_rpc = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21", features = ["client"] }

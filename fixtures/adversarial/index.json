@@ -1,0 +1,937 @@
+[
+ {
+  "id": "ok_bootstrap",
+  "layer": "bootstrap",
+  "targets": [
+   "F1",
+   "F9"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_update_finality",
+  "layer": "update",
+  "targets": [
+   "F1",
+   "F2"
+  ],
+  "expected_error": 1106,
+  "accept_also": []
+ },
+ {
+  "id": "ok_update_learn_next_committee",
+  "layer": "update",
+  "targets": [
+   "F1"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_update_optimistic",
+  "layer": "update",
+  "targets": [
+   "F1"
+  ],
+  "expected_error": 1106,
+  "accept_also": [
+   1101
+  ]
+ },
+ {
+  "id": "ok_attest_account",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "F4",
+   "F6"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_attest_account_lt",
+  "layer": "attest",
+  "targets": [
+   "F4"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_attest_storage",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "F4",
+   "F6"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_attest_log",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "F4",
+   "F6"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_attest_log_multi",
+  "layer": "attest",
+  "targets": [
+   "F3"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_checkpoint_mismatch",
+  "layer": "bootstrap",
+  "targets": [
+   "F9",
+   "VS2.a"
+  ],
+  "expected_error": 1107,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_committee_branch_tampered",
+  "layer": "bootstrap",
+  "targets": [
+   "F1",
+   "VS2.a"
+  ],
+  "expected_error": 1107,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_committee_pubkey_swapped",
+  "layer": "bootstrap",
+  "targets": [
+   "F1",
+   "VS2.a"
+  ],
+  "expected_error": 1107,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_aggregate_pubkey_wrong",
+  "layer": "bootstrap",
+  "targets": [
+   "F1"
+  ],
+  "expected_error": 1107,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_stale_checkpoint",
+  "layer": "bootstrap",
+  "targets": [
+   "F10",
+   "VS2"
+  ],
+  "expected_error": 1105,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_pre_gloas_slot",
+  "layer": "bootstrap",
+  "targets": [
+   "F14"
+  ],
+  "expected_error": 1003,
+  "accept_also": [
+   1001,
+   1201,
+   1105
+  ]
+ },
+ {
+  "id": "bootstrap_pubkey_47_bytes",
+  "layer": "bootstrap",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": []
+ },
+ {
+  "id": "bootstrap_execution_hash_vs_branch",
+  "layer": "bootstrap",
+  "targets": [
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": [
+   1107
+  ]
+ },
+ {
+  "id": "bootstrap_committee_511_pubkeys",
+  "layer": "bootstrap",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1107
+  ]
+ },
+ {
+  "id": "bootstrap_committee_513_pubkeys",
+  "layer": "bootstrap",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1107
+  ]
+ },
+ {
+  "id": "bootstrap_pubkey_infinity_flag",
+  "layer": "bootstrap",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1107,
+   1102
+  ]
+ },
+ {
+  "id": "bootstrap_committee_branch_10_elements",
+  "layer": "bootstrap",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1107
+  ]
+ },
+ {
+  "id": "update_duplicate",
+  "layer": "update",
+  "targets": [
+   "VS2",
+   "F1"
+  ],
+  "expected_error": 1106,
+  "accept_also": []
+ },
+ {
+  "id": "update_duplicate_period_update",
+  "layer": "update",
+  "targets": [
+   "VS2",
+   "F1"
+  ],
+  "expected_error": 1106,
+  "accept_also": [
+   1104
+  ]
+ },
+ {
+  "id": "update_older_period",
+  "layer": "update",
+  "targets": [
+   "VS2.a",
+   "F1"
+  ],
+  "expected_error": 1104,
+  "accept_also": [
+   1106
+  ]
+ },
+ {
+  "id": "update_next_committee_branch_tampered",
+  "layer": "update",
+  "targets": [
+   "VS2.a",
+   "F1"
+  ],
+  "expected_error": 1104,
+  "accept_also": []
+ },
+ {
+  "id": "update_next_committee_member_swapped",
+  "layer": "update",
+  "targets": [
+   "VS2.a"
+  ],
+  "expected_error": 1104,
+  "accept_also": []
+ },
+ {
+  "id": "update_participation_zero_infinity_sig",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1103,
+  "accept_also": []
+ },
+ {
+  "id": "update_signature_slot_not_after_attested",
+  "layer": "update",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1102,
+   1106
+  ]
+ },
+ {
+  "id": "update_signature_slot_in_future",
+  "layer": "update",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1106
+  ]
+ },
+ {
+  "id": "update_bits_63_bytes",
+  "layer": "update",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": []
+ },
+ {
+  "id": "attest_under_optimistic_header",
+  "layer": "attest",
+  "targets": [
+   "F2",
+   "VS2.c"
+  ],
+  "expected_error": 1101,
+  "accept_also": [
+   1201
+  ]
+ },
+ {
+  "id": "attest_under_unknown_header",
+  "layer": "attest",
+  "targets": [
+   "F2",
+   "VS2.c"
+  ],
+  "expected_error": 1101,
+  "accept_also": []
+ },
+ {
+  "id": "attest_el_state_root_tampered",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": []
+ },
+ {
+  "id": "attest_el_receipts_root_tampered",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": []
+ },
+ {
+  "id": "attest_header_execution_hash_rebound",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": []
+ },
+ {
+  "id": "attest_el_rlp_truncated",
+  "layer": "attest",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1201
+  ]
+ },
+ {
+  "id": "attest_el_rlp_extra_field",
+  "layer": "attest",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1201,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "attest_account_proof_node_tampered",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_account_proof_truncated",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "attest_account_proof_wrong_address",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_storage_slot_not_covered",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_storage_proof_node_tampered",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_storage_proof_missing",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "attest_log_wrong_tx_index",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_log_index_out_of_range",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "attest_log_index_wrong_log",
+  "layer": "attest",
+  "targets": [
+   "F3",
+   "F4",
+   "VS2.f"
+  ],
+  "expected_error": 1203,
+  "accept_also": []
+ },
+ {
+  "id": "attest_predicate_false",
+  "layer": "attest",
+  "targets": [
+   "F4"
+  ],
+  "expected_error": 1203,
+  "accept_also": []
+ },
+ {
+  "id": "attest_predicate_field_not_in_fact",
+  "layer": "attest",
+  "targets": [
+   "F4",
+   "VS2.f"
+  ],
+  "expected_error": 1203,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "attest_fact_chain_id_mismatch",
+  "layer": "attest",
+  "targets": [
+   "F5",
+   "F14",
+   "F15",
+   "VS2.e"
+  ],
+  "expected_error": 1002,
+  "accept_also": [
+   1204
+  ]
+ },
+ {
+  "id": "attest_fact_gvr_mismatch",
+  "layer": "attest",
+  "targets": [
+   "F5",
+   "F15",
+   "VS2.e"
+  ],
+  "expected_error": 1002,
+  "accept_also": [
+   1204
+  ]
+ },
+ {
+  "id": "attest_fact_block_hash_mismatch",
+  "layer": "attest",
+  "targets": [
+   "F6",
+   "VS2"
+  ],
+  "expected_error": 1204,
+  "accept_also": []
+ },
+ {
+  "id": "attest_fact_value_mismatch",
+  "layer": "attest",
+  "targets": [
+   "F6"
+  ],
+  "expected_error": 1204,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_chain_same_period",
+  "layer": "update",
+  "targets": [
+   "VS1",
+   "VS2.a",
+   "VS2.b",
+   "F1",
+   "F3"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_chain_log",
+  "layer": "update",
+  "targets": [
+   "VS1",
+   "F3"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_chain_next_period",
+  "layer": "update",
+  "targets": [
+   "VS1",
+   "VS2.a",
+   "F1"
+  ],
+  "expected_error": 1104,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_chain_after_real_handoff",
+  "layer": "update",
+  "targets": [
+   "VS1",
+   "VS2.a"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_bootstrap",
+  "layer": "bootstrap",
+  "targets": [
+   "VS1",
+   "F9",
+   "VS2.a"
+  ],
+  "expected_error": 1107,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_inclusion_under_real_header",
+  "layer": "attest",
+  "targets": [
+   "VS1",
+   "F3",
+   "VS2.f"
+  ],
+  "expected_error": 1202,
+  "accept_also": []
+ },
+ {
+  "id": "vs1_fabricated_el_header_under_real_header",
+  "layer": "attest",
+  "targets": [
+   "VS1",
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_bootstrap",
+  "layer": "bootstrap",
+  "targets": [
+   "F1",
+   "F9",
+   "F14"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_finalise_and_attest",
+  "layer": "attest",
+  "targets": [
+   "F1",
+   "F2",
+   "F3"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_attest_log",
+  "layer": "attest",
+  "targets": [
+   "F3"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_handoff_next_period",
+  "layer": "update",
+  "targets": [
+   "F1"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "fab_attest_under_optimistic_header",
+  "layer": "attest",
+  "targets": [
+   "F2",
+   "VS2.c"
+  ],
+  "expected_error": 1101,
+  "accept_also": []
+ },
+ {
+  "id": "fab_period_gap_plus_2",
+  "layer": "update",
+  "targets": [
+   "VS2.a",
+   "F1"
+  ],
+  "expected_error": 1104,
+  "accept_also": []
+ },
+ {
+  "id": "fab_handoff_skipped_without_next",
+  "layer": "update",
+  "targets": [
+   "VS2.a",
+   "F1"
+  ],
+  "expected_error": 1104,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_participation_342",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "fab_participation_341",
+  "layer": "update",
+  "targets": [
+   "VS2.b",
+   "F1"
+  ],
+  "expected_error": 1103,
+  "accept_also": []
+ },
+ {
+  "id": "fab_participation_341_then_attest",
+  "layer": "update",
+  "targets": [
+   "VS2.b",
+   "VS2.c"
+  ],
+  "expected_error": 1103,
+  "accept_also": []
+ },
+ {
+  "id": "fab_sig_bit_added_to_valid_400",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "fab_sig_bit_dropped_from_valid_400",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "ok_fab_fork_boundary_signature_slot",
+  "layer": "update",
+  "targets": [
+   "F14",
+   "VS2.b"
+  ],
+  "expected_error": 0,
+  "accept_also": []
+ },
+ {
+  "id": "fab_fork_boundary_wrong_version",
+  "layer": "update",
+  "targets": [
+   "F14",
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "fab_committee_infinity_pubkey",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "update_finality_branch_tampered",
+  "layer": "update",
+  "targets": [
+   "F2",
+   "VS2.c"
+  ],
+  "expected_error": 1101,
+  "accept_also": []
+ },
+ {
+  "id": "update_finalized_header_tampered",
+  "layer": "update",
+  "targets": [
+   "F2",
+   "VS2.c"
+  ],
+  "expected_error": 1101,
+  "accept_also": []
+ },
+ {
+  "id": "update_finalized_execution_hash_tampered",
+  "layer": "update",
+  "targets": [
+   "F3",
+   "VS2.d"
+  ],
+  "expected_error": 1201,
+  "accept_also": [
+   1101
+  ]
+ },
+ {
+  "id": "update_finality_branch_short",
+  "layer": "update",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1101
+  ]
+ },
+ {
+  "id": "update_branch_element_31_bytes",
+  "layer": "update",
+  "targets": [
+   "VS2"
+  ],
+  "expected_error": 1001,
+  "accept_also": [
+   1101
+  ]
+ },
+ {
+  "id": "update_attested_slot_tampered",
+  "layer": "update",
+  "targets": [
+   "VS2.b",
+   "F1"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "update_sig_bit_added_nonsigner",
+  "layer": "update",
+  "targets": [
+   "VS2.b",
+   "F1"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "update_sig_byte_flipped",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "update_sig_not_in_g2_subgroup",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "update_sig_infinity_full_bits",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "update_replay_mainnet_gvr",
+  "layer": "update",
+  "targets": [
+   "F5",
+   "F14",
+   "VS2.e"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1002
+  ]
+ },
+ {
+  "id": "update_replay_wrong_fork_version",
+  "layer": "update",
+  "targets": [
+   "F14"
+  ],
+  "expected_error": 1102,
+  "accept_also": []
+ },
+ {
+  "id": "update_nonsigner_hint_subtracts_everyone",
+  "layer": "update",
+  "targets": [
+   "VS2.b",
+   "VS6"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "update_nonsigner_hint_foreign_pubkey",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ },
+ {
+  "id": "update_nonsigner_hint_duplicates",
+  "layer": "update",
+  "targets": [
+   "VS2.b"
+  ],
+  "expected_error": 1102,
+  "accept_also": [
+   1001
+  ]
+ }
+]

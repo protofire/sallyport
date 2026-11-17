@@ -1,0 +1,203 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RISC0_DEV_MODE: "1" # executor only, no proofs
+  CARGO_INCREMENTAL: "0"
+
+jobs:
+  idl:
+    name: idl in sync with Rust sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 idl/gen_idl.py --check
+
+  test:
+    name: fmt, clippy, tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pkg-config libssl-dev libpcsclite-dev clang cmake
+
+      # rust-toolchain.toml pins 1.98.1 repo-wide (lee_core via lez-client needs it); install the same here.
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+          components: rustfmt, clippy
+
+      # Guest build (program-methods -> risc0-build): risc0 rust 1.97.0 + cpp toolchain, cargo-risczero/r0vm 3.0.5.
+      - name: Install risc0 toolchain (rzup)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # rzup reads GITHUB_TOKEN to avoid the unauthenticated api.github.com rate limit
+        run: |
+          curl -L https://risczero.com/install | bash
+          echo "$HOME/.risc0/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.risc0/bin:$PATH"
+          rzup install rust 1.97.0
+          rzup install cpp 2024.1.5
+          rzup install cargo-risczero 3.0.5
+          rzup install r0vm 3.0.5
+          rzup show
+
+      # The macOS-only AR_ override (cc cannot find an `ar` for riscv32im on macOS) is expected to be
+      # unnecessary on Linux (GNU ar is on PATH); set it anyway when the cpp toolchain ships one.
+      - name: Point cc at the risc0 cpp ar (if present)
+        run: |
+          ar_bin=$(find "$HOME/.risc0/toolchains" -name 'riscv32-unknown-elf-ar' -type f | head -n1 || true)
+          if [ -n "$ar_bin" ]; then echo "AR_riscv32im_risc0_zkvm_elf=$ar_bin" >> "$GITHUB_ENV"; fi
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: ci-1.98.1
+          cache-on-failure: true
+
+      # crates/bridge (bridge guest) is formatted; formatting changes the guest image, so it was applied once, before the final deployment
+      - name: fmt
+        run: cargo fmt --all --check
+
+      # Warnings are allowed; the full report is kept as an artifact and in the job summary.
+      # RISC0_SKIP_BUILD: clippy-driver leaks into the guest build and breaks it (verified locally); guests are built by the test step.
+      - name: clippy (report only)
+        continue-on-error: true
+        env:
+          RISC0_SKIP_BUILD: "1"
+        run: |
+          set -o pipefail
+          cargo clippy --workspace --release --all-targets --exclude program-e2e --exclude bench 2>&1 | tee clippy.log
+          { echo '### clippy'; grep -c '^warning' clippy.log | sed 's/^/warnings: /'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clippy-log
+          path: clippy.log
+          if-no-files-found: ignore
+
+      # program-e2e needs a live sequencer: e2e.yml. Includes vector-runner (fixtures/adversarial vectors).
+      # spec-tests needs the official vectors (~1.4 GB download, crates/spec-tests/fetch.sh): run by hand (README, Quickstart).
+      # RFP-022 bridge crates first, so a bridge failure is named in the job log (the workspace step reruns them from cache).
+      - name: bridge tests (RFP-022)
+        run: |
+          cargo test --release -p bridge-core -p bridge -p bridge-cli -p bridge-prover
+          cargo test --release -p program-tests --test bridge
+
+      # bench defaults to the macOS-only Metal prover (crates/bench/Cargo.toml).
+      - name: tests
+        run: cargo test --workspace --release --exclude program-e2e --exclude spec-tests --exclude bench
+      - name: residue check vs final exponentiation (differential)
+        run: cargo test --release -p attest-program --features witness --test residue_differential
+
+      # The module is its own workspace (modules/eth_attest_module/rust-lib); without the Logos SDK feature
+      # its tests are plain Rust (89 vectors, 74 adversarial cases and 15 positive controls, through the dry run, produce -> verify).
+      # The optional SDK path dep must exist for cargo to resolve the manifest (gitignored; rev = flake.lock, docs/MODULE.md).
+      - name: module tests
+        working-directory: modules/eth_attest_module/rust-lib
+        run: |
+          git clone -q https://github.com/logos-co/logos-rust-sdk ../logos-rust-sdk-src
+          git -C ../logos-rust-sdk-src checkout -q 040e94e83873249dc5f27da8c2a01c3dcaaa630d
+          cargo test --release --no-default-features
+
+  forge:
+    name: forge test (contracts/bridge)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.1
+
+      # RealSeal forks Sepolia only when SEPOLIA_RPC is set. It is unset here, so that test is SKIPPED in this job
+      # (an RPC outage cannot fail it). The forge-realseal job below runs it against a public RPC.
+      - name: forge test
+        working-directory: contracts/bridge
+        run: |
+          set -o pipefail
+          forge test -vv | tee forge.log
+          { echo '### forge test'; echo 'RealSeal (needs SEPOLIA_RPC): skipped in this job, see forge-realseal.'; { grep -E '^Ran |Suite result' forge.log || true; } | tail -n 3; } >> "$GITHUB_STEP_SUMMARY"
+
+  forge-realseal:
+    name: forge RealSeal on Sepolia fork (non-blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Needs only eth_call/code at the latest Sepolia block (the pinned Groth16 verifier), no archive state. A public RPC
+    # can rate-limit or be down, so this is reported, not blocking.
+    continue-on-error: true
+    env:
+      SEPOLIA_RPC: https://ethereum-sepolia-rpc.publicnode.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.1
+
+      # A skipped test would also exit 0, so require an explicit [PASS] line.
+      - name: forge test RealSeal
+        working-directory: contracts/bridge
+        run: |
+          set -o pipefail
+          forge test --match-contract RealSealTest -vv | tee realseal.log
+          grep -q '\[PASS\] test_B22_5_realSealOnSepoliaVerifier' realseal.log
+
+  image-ids:
+    name: reproducible ImageIDs match README (non-blocking)
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    # Builds all eight guests in risc0's Docker builder: slow, and a builder pull can flake. Reported, not blocking;
+    # a mismatch still shows as a failed job in the run.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pkg-config libssl-dev libpcsclite-dev clang cmake
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1"
+
+      - name: Install risc0 toolchain (rzup)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # rzup reads GITHUB_TOKEN to avoid the unauthenticated api.github.com rate limit
+        run: |
+          curl -L https://risczero.com/install | bash
+          echo "$HOME/.risc0/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.risc0/bin:$PATH"
+          rzup install rust 1.97.0
+          rzup install cargo-risczero 3.0.5
+          rzup install r0vm 3.0.5
+
+      # scripts/image-ids.sh prints "<name> [(note)] <hex>"; the README table rows are "| <name> [(note)] | `<hex>` |".
+      - name: ImageIDs (Docker build) vs README table
+        run: |
+          set -o pipefail
+          scripts/image-ids.sh | tee image-ids.txt
+          awk 'NF {print $1, $NF}' image-ids.txt | sort > got.txt
+          # shellcheck disable=SC2016
+          sed -nE 's/^\| ([a-z0-9_]+)[^|]*\| `([0-9a-f]{64})` \|$/\1 \2/p' README.md | sort > want.txt
+          test -s want.txt
+          diff -u want.txt got.txt

@@ -1,0 +1,24 @@
+[package]
+name = "attest-program"
+version = "0.1.0"
+edition.workspace = true
+description = "RFP-021 LEZ attestation program: shared types, PDA seeds, and the guest handler"
+
+[features]
+default = []
+# Guest handler (BLS via risc0/blst). Host crates use only the types/seeds.
+guest = ["entry", "dep:blst"]
+# Guest entry point shared with the consumer guests (no BLS).
+entry = ["dep:risc0-zkvm"]
+# Host-only: residue witness builder for relayers (crates.io blst + num-bigint).
+witness = ["dep:blst", "dep:num-bigint"]
+
+[dependencies]
+borsh = { version = "1", default-features = false, features = ["derive", "std"] }
+sha2 = { version = "0.10", default-features = false }
+lc-core = { path = "../lc-core", default-features = false }
+inclusion = { path = "../inclusion" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+blst = { version = "0.3.16", optional = true } # guest Cargo.toml patches it to risc0/blst v0.3.16-risczero.0
+num-bigint = { version = "0.4.8", optional = true }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"], optional = true }

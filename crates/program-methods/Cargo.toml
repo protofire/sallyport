@@ -1,0 +1,11 @@
+[package]
+name = "program-methods"
+version = "0.1.0"
+edition.workspace = true
+description = "Builds the RFP-021 LEZ guest programs (attest, erc20_receiver, eth_receiver) and the RFP-022 guests (bridge, burn_member)"
+
+[build-dependencies]
+risc0-build = "=3.0.5"
+
+[package.metadata.risc0]
+methods = ["attest-guest", "consumers-guest", "bridge-guest", "release-guest"]

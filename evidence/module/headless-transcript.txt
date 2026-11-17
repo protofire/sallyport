@@ -1,0 +1,87 @@
+# eth_attest_module headless transcript — 2026-11-04T20:45:09Z, aarch64-linux, beacon_api_module @ f19ec82
+
+$ ctl daemon start --detach
+Daemon started (pid 13730)
+Logs: /tmp/tmp.ivS0nlURhV/session/logs/daemon.log
+
+$ ctl install beacon-lgx/logos-beacon_api_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.ivS0nlURhV/beacon-lgx/logos-beacon_api_module-module-lib.lgx","fromVersion":"","name":"beacon_api_module","signature":"unsigned","toVersion":"0.1.1"}],"installed":["beacon_api_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl install ethrpc-lgx/logos-eth_rpc_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.ivS0nlURhV/ethrpc-lgx/logos-eth_rpc_module-module-lib.lgx","fromVersion":"","name":"eth_rpc_module","signature":"unsigned","toVersion":"0.1.0"}],"installed":["eth_rpc_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl install attest-lgx/logos-eth_attest_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.ivS0nlURhV/attest-lgx/logos-eth_attest_module-module-lib.lgx","fromVersion":"","name":"eth_attest_module","signature":"unsigned","toVersion":"0.1.0"}],"installed":["eth_attest_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl package ls
+[{"author":"Logos Core Team","category":"wallet","dependencies":[],"description":"Proxyable, fail-closed Ethereum Beacon API client. Per-chain consensus-layer provider lists with failover; serves the light-client routes the verified proxy reads. socks5h/Tor-ready.","displayName":"","hashes":{"root":"c75d47254affed99d13f4ee201f0d8f79b049a839fcf7343203bc483db81d6d6"},"icon":"","installDir":"/tmp/tmp.ivS0nlURhV/session/modules/beacon_api_module","installType":"user","license":"","mainFilePath":"/tmp/tmp.ivS0nlURhV/session/modules/beacon_api_module/beacon_api_module_plugin.so","manifestVersion":"0.6.0","name":"beacon_api_module","source":"","type":"core","version":"0.1.1","view":""},{"author":"Logos Core Team","category":"security","dependencies":[],"description":"Coordinates permissions between modules","displayName":"Capabilities","hashes":{"root":"b74d232a286cbe0d799b8957d21eb1aed3b28a6b8c03d402a5102151157d67f1"},"icon":"","installDir":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules/capability_module","installType":"embedded","license":"","mainFilePath":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules/capability_module/capability_module_plugin.so","manifestVersion":"0.6.0","name":"capability_module","source":"","type":"core","version":"1.0.0","view":""},{"author":"Protofire","category":"wallet","dependencies":["beacon_api_module","eth_rpc_module"],"dependencyConstraints":[{"name":"beacon_api_module","version":"~0.1.0"},{"name":"eth_rpc_module","version":"~0.1.0"}],"description":"Produce and dry-run-verify light-client-backed Ethereum attestations (account / storage slot / receipt log + predicate). Beacon light-client material via beacon_api_module.","displayName":"Ethereum Attestation Module (RFP-021)","hashes":{"root":"1110c8e41e58cbdb9297a8d3fca1f14d2257877d985006faef8ae15e5ab8fc4e"},"icon":"","installDir":"/tmp/tmp.ivS0nlURhV/session/modules/eth_attest_module","installType":"user","license":"","mainFilePath":"/tmp/tmp.ivS0nlURhV/session/modules/eth_attest_module/eth_attest_module_plugin.so","manifestVersion":"0.7.0","name":"eth_attest_module","source":"","type":"core","version":"0.1.0","view":""},{"author":"Logos Core Team","category":"wallet","dependencies":[],"description":"Proxyable, fail-closed Ethereum JSON-RPC client. Per-chain config (endpoint + proxy); RPC calls keyed by chainId. socks5h/Tor-ready.","displayName":"","hashes":{"root":"ba17621050e5ed36df0d1717a5053933953a16f358c3d23a61ea5ba32b5f71f4"},"icon":"","installDir":"/tmp/tmp.ivS0nlURhV/session/modules/eth_rpc_module","installType":"user","license":"","mainFilePath":"/tmp/tmp.ivS0nlURhV/session/modules/eth_rpc_module/eth_rpc_module_plugin.so","manifestVersion":"0.6.0","name":"eth_rpc_module","optionalDependencies":["modules_state",{"name":"verified_proxy_module","version":"~0.1.0"}],"source":"","type":"core","version":"0.1.0","view":""},{"author":"Logos Core Team","category":"system","dependencies":[],"description":"Read-only registry of module lifecycle state","displayName":"Module State","hashes":{"root":"4f0bd7bc17599576b8dc0e9fe70f75bfc5bf2bd6bf937e6d7cadac7bae7093a3"},"icon":"","installDir":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules/modules_state","installType":"embedded","license":"","mainFilePath":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules/modules_state/modules_state_plugin.so","manifestVersion":"0.6.0","name":"modules_state","source":"","type":"core","version":"0.1.0","view":""},{"author":"Logos Core Team","category":"management","dependencies":[],"description":"Online package catalog and download service","displayName":"Package Downloader","hashes":{"root":"a6e406b35f934c664513f50a05a6d212feb9d17bec8fa9ac65776862db5aaaf1"},"icon":"","installDir":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/package_downloader","installType":"embedded","license":"","mainFilePath":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/package_downloader/package_downloader_plugin.so","manifestVersion":"0.6.0","name":"package_downloader","optionalDependencies":["storage_module","modules_state"],"source":"","type":"core","version":"1.0.0","view":""},{"author":"Logos Core Team","category":"management","dependencies":[],"description":"Plugin manager for the Logos system","displayName":"Package Manager","hashes":{"root":"5d1e352d835d416a097d08d2d5a8e2e4171550fb34700ff22edad4863eee9181"},"icon":"","installDir":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/package_manager","installType":"embedded","license":"","mainFilePath":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/package_manager/package_manager_plugin.so","manifestVersion":"0.6.0","name":"package_manager","source":"","type":"core","version":"1.0.0","view":""},{"author":"Logos Core Team","category":"protocol","dependencies":[],"description":"Storage module","displayName":"Storage Module","hashes":{"root":"00b3b2bec4a65a3d0daad286c63594adee438e2620a99e8003caff697e856ce3"},"icon":"","installDir":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/storage_module","installType":"embedded","license":"","mainFilePath":"/nix/store/apa9xni2k14lvwxqddlcdyzc4wpfmihh-logos-logoscore-cli-logosctl-0.1.0-dev/modules-pkg/storage_module/storage_module_plugin.so","manifestVersion":"0.6.0","name":"storage_module","source":"","type":"core","version":"3.0.2","view":""}]
+
+$ ctl module load beacon_api_module
+{"dependencies_loaded":[],"module":"beacon_api_module","status":"ok","version":"0.1.1"}
+
+$ ctl module load eth_rpc_module
+{"dependencies_loaded":[],"module":"eth_rpc_module","optional_skipped":[{"module":"verified_proxy_module","named_by":"eth_rpc_module","reason":"not_installed"}],"status":"ok","version":"0.1.0"}
+
+$ ctl module load eth_attest_module
+{"dependencies_loaded":[],"module":"eth_attest_module","optional_skipped":[{"module":"verified_proxy_module","named_by":"eth_rpc_module","reason":"not_installed"}],"status":"ok","version":"0.1.0"}
+
+## ok_attest_account (expected_error 0)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/ok_attest_account.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"blockNumber\":12062742,\"chainId\":11155111,\"errorCode\":0,\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"finalized\":{\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"slot\":11505472,\"updatesApplied\":0},\"locator\":\"Account { address: [123, 121, 153, 94, 95, 121, 58, 7, 188, 0, 194, 20, 18, 229, 14, 202, 224, 152, 231, 249] }\",\"ok\":true,\"statementId\":\"0x12436b5cbcde6668fa90bfde66d365c5b18d114c5573d55a0acb3db8c9f008f2\"}","status":"ok"}
+
+## ok_attest_storage (expected_error 0)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/ok_attest_storage.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"blockNumber\":12062742,\"chainId\":11155111,\"errorCode\":0,\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"finalized\":{\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"slot\":11505472,\"updatesApplied\":0},\"locator\":\"Storage { address: [123, 121, 153, 94, 95, 121, 58, 7, 188, 0, 194, 20, 18, 229, 14, 202, 224, 152, 231, 249], slot: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }\",\"ok\":true,\"statementId\":\"0xa402b067dfefb0dd3a4f4551c792d8dd5b0b833239207fc3094235bf5149104a\"}","status":"ok"}
+
+## ok_attest_log (expected_error 0)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/ok_attest_log.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"blockNumber\":12062742,\"chainId\":11155111,\"errorCode\":0,\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"finalized\":{\"executionBlockHash\":\"0xe419a6ded1029d989b07abdaf3e5636408e5ca69af587198bcff7da5189467b1\",\"slot\":11505472,\"updatesApplied\":0},\"locator\":\"Log { tx_index: 2, log_index: 0 }\",\"ok\":true,\"statementId\":\"0xcad31670b38e2223ff736117c333c84fbc48808e946bb1abc1000ef789174e8c\"}","status":"ok"}
+
+## attest_predicate_false (expected_error 1203)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/attest_predicate_false.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"PredicateFailed\",\"errorCode\":1203,\"ok\":false,\"stage\":\"attest\"}","status":"ok"}
+
+## attest_el_state_root_tampered (expected_error 1201)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/attest_el_state_root_tampered.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"ExecutionHeaderMismatch\",\"errorCode\":1201,\"ok\":false,\"stage\":\"attest\"}","status":"ok"}
+
+## attest_account_proof_node_tampered (expected_error 1202)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/attest_account_proof_node_tampered.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"InclusionInvalid\",\"errorCode\":1202,\"ok\":false,\"stage\":\"attest\"}","status":"ok"}
+
+## attest_under_unknown_header (expected_error 1101)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/attest_under_unknown_header.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"HeaderNotFinalised\",\"errorCode\":1101,\"ok\":false,\"stage\":\"attest\"}","status":"ok"}
+
+## bootstrap_committee_branch_tampered (expected_error 1107)
+
+$ ctl call eth_attest_module verify_attestation_dry_run @<repo>/fixtures/adversarial/bootstrap_committee_branch_tampered.json
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"BootstrapMismatch\",\"errorCode\":1107,\"ok\":false,\"stage\":\"bootstrap\"}","status":"ok"}
+
+$ ctl call eth_attest_module verify_attestation_dry_run str:{"config":{}}
+{"method":"verify_attestation_dry_run","module":"eth_attest_module","result":"{\"error\":\"expected unsigned int, got null\",\"errorCode\":1001,\"ok\":false,\"stage\":\"config\"}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update inst-1 str:{}
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"set_chain_config(11155111, {lezRpc, attestProgram}) first\",\"errorCode\":\"lez_config\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module read_instance inst-1
+{"method":"read_instance","module":"eth_attest_module","result":"{\"error\":\"set_chain_config(11155111, {lezRpc, attestProgram}) first\",\"errorCode\":\"lez_config\",\"ok\":false}","status":"ok"}
+
+$ ctl call beacon_api_module init_defaults
+{"method":"init_defaults","module":"beacon_api_module","result":"{\"applied\":true,\"ok\":true,\"seeded\":{\"1\":[\"lodestar\",\"nimbus-testing\",\"nimbus-unstable\"],\"11155111\":[\"lodestar\",\"nimbus-unstable\"],\"560048\":[\"lodestar\",\"nimbus-testing\"]}}","status":"ok"}
+
+$ ctl call beacon_api_module finalized_header 11155111
+{"method":"finalized_header","module":"beacon_api_module","result":"{\"chainId\":11155111,\"endpoint\":\"https://lodestar-sepolia.chainsafe.io\",\"ok\":true,\"provider\":\"lodestar\",\"root\":\"0x18b4b6df9992745149ff8b8a81f9cbcd05243fdfbe5666abf3c950bdf473605f\",\"slot\":\"11507552\"}","status":"ok"}
+
+$ ctl call eth_attest_module set_chain_config 11155111 str:{"checkpointRoot":"0x18b4b6df9992745149ff8b8a81f9cbcd05243fdfbe5666abf3c950bdf473605f"}
+{"method":"set_chain_config","module":"eth_attest_module","result":"{\"attestProgram\":\"\",\"chainId\":11155111,\"checkpointRoot\":\"0x18b4b6df9992745149ff8b8a81f9cbcd05243fdfbe5666abf3c950bdf473605f\",\"elRpc\":\"\",\"lezRpc\":\"\",\"ok\":true,\"operatorKeyFile\":\"\"}","status":"ok"}
+
+$ ctl call eth_attest_module produce_attestation 11155111 "" <WETH> "" -1 -1 nonce>=0  | first 700 chars
+{"method":"produce_attestation","module":"eth_attest_module","result":"{\"dryRun\":{\"blockNumber\":12064807,\"chainId\":11155111,\"errorCode\":0,\"executionBlockHash\":\"0x6ddc5ac9624f01fb570b7c632b12ec2c26453965f6175e56e9c19b5b48fe2bb4\",\"finalized\":{\"executionBlockHash\":\"0x6ddc5ac9624f01fb570b7c632b12ec2c26453965f6175e56e9c19b5b48fe2bb4\",\"slot\":11507552,\"updatesApplied\":0},\"locator\":\"Account { address: [123, 121, 153, 94, 95, 121, 58, 7, 188, 0, 194, 20, 18, 229, 14, 202, 224, 152, 231, 249] }\",\"ok\":true,\"statementId\":\"0x7f784003d2177cf3dad96b1e122ff9c7ef7ea3d7d74dd9125b9c54ec72c027c1\"},\"material\":{\"attest\":{\"el_header_rlp\":\"0xf902a2a00b05a61f18b090ba78a360b4624

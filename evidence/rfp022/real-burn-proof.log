@@ -1,0 +1,43 @@
+   Compiling program-methods v0.1.0 (<repo>/crates/program-methods)
+   Compiling program-tests v0.1.0 (<repo>/crates/program-tests)
+    Finished `release` profile [optimized] target(s) in 3.96s
+     Running tests/bridge.rs (target/release/deps/bridge-e18a023311799fbc)
+
+running 1 test
+WARNING: proving in dev mode. This will not generate valid, secure proofs.
+WARNING: Proving in dev mode does not generate a valid receipt. Receipts generated from this process are invalid and should never be used in production.
+WARNING: proving in dev mode. This will not generate valid, secure proofs.
+WARNING: Proving in dev mode does not generate a valid receipt. Receipts generated from this process are invalid and should never be used in production.
+WARNING: proving in dev mode. This will not generate valid, secure proofs.
+WARNING: Proving in dev mode does not generate a valid receipt. Receipts generated from this process are invalid and should never be used in production.
+WARNING: proving in dev mode. This will not generate valid, secure proofs.
+WARNING: Proving in dev mode does not generate a valid receipt. Receipts generated from this process are invalid and should never be used in production.
+test real_burn_proof has been running for over 60 seconds
+REAL_BURN prove 285.3s verify+settle 0.16s tx 227120 bytes
+test real_burn_proof ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 287.32s
+
+	Command being timed: "timeout 7200 cargo test --release -p program-tests --test bridge real_burn_proof -- --ignored --nocapture"
+	User time (seconds): 3169.66
+	System time (seconds): 12.31
+	Percent of CPU this job got: 1089%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:51.97
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 9606580
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 20
+	Minor (reclaiming a frame) page faults: 7100922
+	Voluntary context switches: 73024
+	Involuntary context switches: 329314
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

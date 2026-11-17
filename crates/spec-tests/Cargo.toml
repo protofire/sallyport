@@ -1,0 +1,20 @@
+[package]
+name = "spec-tests"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+description = "Test-only: official consensus-spec-tests (light client, ssz_static) and bls12-381-tests against lc-core / attest-program, host and guest. Vectors: fetch.sh (not in git)."
+
+[dependencies]
+lc-core = { path = "../lc-core", features = ["json", "host-bls"] }
+attest-program = { path = "../attest-program", features = ["witness"] }
+program-tests = { path = "../program-tests" }
+program-methods = { path = "../program-methods" }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "client"] }
+blst = "0.3.16"
+borsh = { version = "1", features = ["derive"] }
+sha2 = "0.10"
+snap = "1.1"
+serde_yaml = "0.9"
+serde_json = "1"
+hex = "0.4"

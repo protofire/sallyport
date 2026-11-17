@@ -1,0 +1,165 @@
+{
+  "chain_id": 11155111,
+  "deployed": "2026-11-10 (development commit 4b680f8 and the final 2026-11-10 run in evidence/rfp022-sepolia.md)",
+  "deployer": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
+  "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e",
+  "BridgeVault": {
+    "address": "0x4A9695DBDAbed69F796dE39945A8EF7A35825472",
+    "nonce": 46,
+    "tx": "0xed2c7d65897a0789e12910dc2e04f2c7afcd806f3241ebb4d99ff7433827137b",
+    "block": 12102059,
+    "node_estimate": 16310416,
+    "gas_limit": 19572499,
+    "gas_used": 16180829,
+    "constructor": {
+      "admin": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
+      "freezer": "0x413c7f9F0BDC9f73B1d5405e2e23E0D6A2D05E97",
+      "root_verifier": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876",
+      "groth16": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
+      "membership_image_id": "0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821",
+      "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e",
+      "max_fee_bps": 500,
+      "min_timelock": 21600
+    },
+    "ROOT_VERIFIER()": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876"
+  },
+  "EcdsaRootVerifier": {
+    "address": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876",
+    "nonce": 45,
+    "tx": "0xfc99a8eb2caaade05fd15fbde5f473e5372810492dc939963a26be7e5000368b",
+    "block": 12102058,
+    "node_estimate": 4065517,
+    "gas_limit": 4878620,
+    "gas_used": 4032347,
+    "constructor": {
+      "signers": [
+        "0x0Dd666e319d673813C440F835Bf9708cEE9D95D1",
+        "0x26497FE42fCfda16De4f6E225FA0340c430760c1"
+      ],
+      "threshold": 2,
+      "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e"
+    },
+    "signer_1": "0x26497fe42fcfda16de4f6e225fa0340c430760c1 (key from B22_ROOT_SIGNER_1_KEY)",
+    "signer_2": "0x0dd666e319d673813c440f835bf9708cee9d95d1 (signer host 2 only, b22 gen-signer)"
+  },
+  "TetherToken_mock": {
+    "address": "0xBB2bb9aA927b3925dBf1AA92587aA448c8DB4f0e",
+    "nonce": 44,
+    "tx": "0x4006ab565e5295d7e176aeb37324effbab50f6de37522a3886b4e1278e1dc4d0",
+    "block": 12102057,
+    "node_estimate": 9772199,
+    "gas_limit": 11726638,
+    "gas_used": 9694094
+  },
+  "groth16_verifier": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
+  "membership_image_id": "0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821",
+  "freezer": "0x413c7f9F0BDC9f73B1d5405e2e23E0D6A2D05E97",
+  "min_timelock": 21600,
+  "registration": {
+    "ETH": {
+      "denom": "10000000000000000",
+      "standard_fee": "100000000000000",
+      "release_delay": 600,
+      "window": 86400,
+      "deposit_cap": "40000000000000000",
+      "release_cap": "20000000000000000"
+    },
+    "USDT": {
+      "denom": "100000000",
+      "standard_fee": "1000000",
+      "release_delay": 600,
+      "window": 86400,
+      "deposit_cap": "400000000",
+      "release_cap": "200000000"
+    },
+    "min_lez_depth": 10,
+    "txs": [
+      "0x7823fc9d3f37a103ed021c5ba35c559b732852746a9d2be1e0b9da934f9f0ef1",
+      "0x0fdb7b8658965e1d9036729005a656d25211f4d964fccfbd84207f0d3f125aee",
+      "0xc9745b8f95d9f483ec188276222d7e753465f952e6195d2e74a066c13bbd2737",
+      "0xc67ee0c327601af72df03eb5ec1b069c7ccd3a96c3d364f96ce967c88f0ca017",
+      "0x985a86e3b6c530ca98f91e160d0aebdddec18b2e8e487800f152f1d6f5652089"
+    ]
+  },
+  "gas_note": "every gas limit = Sepolia node eth_estimateGas x1.2 (contracts/bridge/script/deploy_sepolia.py); a local revm fork estimated 2.30M for the vault creation, the Sepolia node 16.31M (used 16.18M)",
+  "lez": {
+    "bridge_program_id": "0x7232c5496d2b666c7933610ccf1b5280c98dde94ae7c81dbd515496a366941cb",
+    "bridge_image": "0x030e554bab245def77adb144a04ada0bd57a9593109d74b034f6fcbded18878c",
+    "attest_instance": "0xa7b7292ce62f53baa0b88f15fa666c2d026e75077fdc3ce6463e489354eddc31"
+  },
+  "post_e2e": {
+    "queue_loosening_setToken_USDT": "0xa6fe9dc5da2d0a5287e729fe40dbeb3293680475b04321ecebc20b7cdc93fcf6",
+    "freezer_cancelTokenChange_USDT": "0x0e6a567f4568f058146b440e311477f2f5656b75c68ddbd07904ff36c3958122",
+    "setFrozen_both_on": "0x0e6297b29af4990d58cb4912afdac0aa52e4f02efc66b97f1d5f2043bfc72913",
+    "setFrozen_both_off": "0x25ebef266181080739592c70b689eb829587fec5e5d6a4b8cee9cb81ed4fc2a1"
+  },
+  "superseded": {
+    "2026-11-10 run-1 deployment (e2e failed in step 10, user key underfunded; evidence/rfp022-sepolia.md)": {
+      "BridgeVault": "0x7F3707E8c0f6F0a3AAbae62aB29cC77d5A83ae8E",
+      "EcdsaRootVerifier": "0x270f931F9b51490D4579c05B9366c1B10f6c4a40",
+      "TetherToken_mock": "0x46946AD508368A922a068C74040Eb81c1017aEc6",
+      "config_id": "0x5e69f5c6d105c7efa6f82942dd4221103ab29de1aac0cab95cbfcfaa03c8d212"
+    },
+    "2026-11-09": {
+      "chain_id": 11155111,
+      "deployer": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
+      "config_id": "0x90940cb3ae8dcf55a11ab0af80bccb73c6ab63f68a85f93a016e06d4f61af209",
+      "BridgeVault": {
+        "address": "0x757bba33B117eFA3D677d36C05985783Db1ba2f2",
+        "nonce": 15,
+        "tx": "0x0f1600f03c0c72183e0e93aef7f9f6418fb38273bdea35ce2312e7a3b6d0336a",
+        "gas_used": 13016681
+      },
+      "EcdsaRootVerifier": {
+        "address": "0x9697048E6b13B874e1c7e48ba60C837d821C2F9B",
+        "nonce": 16,
+        "tx": "0xa765febc8fc8f65dc9d1862ac7c757c1b44b76b2bcafecdf60fb1d2ce0c4928e",
+        "gas_used": 4032335,
+        "signers": [
+          "0xda67a90001372753D3A18FF832382d6E76d6E4FF",
+          "0x18ebFDf2D3D0E431Bce4adb0d9329FECFB4F0AFe"
+        ],
+        "threshold": 2
+      },
+      "TetherToken_mock": {
+        "address": "0x5cfefbab7c8df288eed1d966c1d349054e44b398",
+        "nonce": 17,
+        "tx": "0x73566ba286d95a1a8ca7ac9d5ebcfe1bdba72fc8220c25d2298c358ff63e4a6b",
+        "gas_used": 9693070
+      },
+      "groth16_verifier": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
+      "membership_image_id": "0xaa84d059ac7fc5b6ccde2ce87b367a49f4925b1f65727955de46a06463e411a2",
+      "freezer": "0x413c7f9f0bdc9f73b1d5405e2e23e0d6a2d05e97",
+      "registration": {
+        "ETH": {
+          "denom": "10000000000000000",
+          "standard_fee": "100000000000000",
+          "release_delay": 600,
+          "window": 86400,
+          "deposit_cap": "40000000000000000",
+          "release_cap": "20000000000000000"
+        },
+        "USDT": {
+          "denom": "100000000",
+          "standard_fee": "1000000",
+          "release_delay": 600,
+          "window": 86400,
+          "deposit_cap": "400000000",
+          "release_cap": "200000000"
+        },
+        "min_lez_depth": 10,
+        "txs": [
+          "0x0c5b70662ffb214f568f66483d4ad9681bf46fc2e89589b9d3d01c2084483a5d",
+          "0xa6276e4f653b3b710c1d4551ea8341b9345f611b1243e21ee8e8e12864d58dc9",
+          "0x652fd2f54a949579bcc3135c2ebe4530da2993445e893f49cbbaca3836cd552b",
+          "0xf8c94397151824d5558700866f66369a413de14b3bb81d955ba77b8d62f112b8",
+          "0xd67506536705bfb4fdfa6dc0aa068e1b78fb7e85f34debbf0fbe57ca3afde73a"
+        ]
+      },
+      "failed_out_of_gas": {
+        "nonce_13_TetherToken": "0x242a74ea787571cb69094b909fe0d199a2d2454b01daeaf0dbd326044a7257c8",
+        "nonce_14_EcdsaRootVerifier": "0x2d7e57f139df7d9bd0977d379c56f8f8e5dfc22f6fb4317acc8b99409aa81f9e"
+      }
+    }
+  }
+}

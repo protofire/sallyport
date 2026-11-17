@@ -1,0 +1,27 @@
+{
+  "name": "bridge_module",
+  "display_name": "Private Bridge Module (RFP-022 prototype)",
+  "version": "0.1.0",
+  "description": "RFP-022 prototype core module over bridge-core: deposit derivation and registry decoding. Private-only; claim/burn/recovery builders are not exposed yet.",
+  "author": "Protofire",
+  "type": "core",
+  "interface": "cdylib",
+  "category": "wallet",
+  "main": "bridge_module_plugin",
+  "dependencies": [],
+  "include": [],
+  "capabilities": [],
+  "codegen": {
+    "rust": {
+      "crate": "rust-lib",
+      "trait": "BridgeModule",
+      "source": "src/glue.rs"
+    }
+  },
+  "nix": {
+    "external_libraries": [],
+    "packages": { "build": [], "runtime": [] },
+    "cmake": { "find_packages": [], "extra_include_dirs": [] },
+    "rust": { "toolchain": "1.98.1" }
+  }
+}

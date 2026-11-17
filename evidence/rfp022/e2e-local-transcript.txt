@@ -1,0 +1,191 @@
+# (filtered extract of the `b22 e2e --local` log), not the raw log.
+# Removed: lines matching ^Transaction (hash|is included)|^WARNING|^Latest block|^Syncing|^Synced|^Public tree|^Private tree|^Cleanup of tree
+# (LEZ wallet progress noise). Nothing else was removed or edited.
+=== STEP e2e-local START 22:56:47: env RISC0_DEV_MODE=1 ./target/release/b22 e2e --local
+== setup (--local)
+  LEZ sequencer :3052 (fresh, RISC0_DEV_MODE=1); payer 6iArKUXxhUJqS7kCaPNhwMWt3ro71PDyBj7jwAyE2VQV, freezer 5MMVwHisS1fmBQpitrKPWB2gM5p1HzJLrpEcDwXENXJw; holders (one LEZ wallet each, root private account) A A37YMcoD616JvXr8NLPDEKktiFYKzwnPYZGPxjFh9D9F B 2gv4Mqh862HzG7HxuU4TUfCUQBPCRH99phDrTzNrEXh8
+  deployed attest 4ZyXXGxaw83mTWZc8fRRTnSDSR6Qhq9d8taM8QWhR9wd and bridge 2ohTEe78Pm4hMGB2gya92eSt51FTYasGez4msFxswC5Z (immutable); BRIDGE_ID image 46c8dcd94a25fdd476b9fb78b09326763034e36858115b53f6fd7bc31ce8264c
+  attest instance 0x40fa17a9403069555697ea65c5d051a68566dcb76ab594daf3429ad60e07c0fe (DEVNET BEACON over anvil chain 31337, local only): Init tx 91e0d93eab8c84ae59289d5f17628db782cb10b48762feb99d2663cad4199a92 block 172
+  anvil: RiscZeroMockVerifier 0x5FbDB2315678afecb367f032d93F642f64180aa3, USDT mock 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, BridgeVault 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9 (CONFIG_ID 0x05ab34e2df16478a1890e35beb4f7c0a3f607d02bf5d7171c0c57f4592890782)
+  root signers: LOCAL DEV KEYS 0x923605556480f7797e8c3024d642841a6e56325e and 0xc4698bfec97b1790a4e9c366b26af2f2b8401e3e (both on this machine; local only)
+  InitConfig tx 917d5de659c0e7acd807302f789ef5dd9dedc789ad4974f2b5bc283cfd967a15 block 183
+  RegisterToken USDT tx 3a8889028c3b253d3b85c537bfd88161a986237fb4d072290a33190e441c0769 block 193
+  RegisterToken ETH tx 629b1fb8a071e9a1548c3a72f4d28eac7c3f39a1b7900ef2ce95f81f99780d80 block 203
+  setup 637 s
+== TRANSCRIPT HEADER
+   LEZ: sequencer runs with RISC0_DEV_MODE=1. LEZ private proofs are NOT generated and NOT
+   verified in this run; every "LEZ dev-mode tx + inclusion" time is execution + inclusion,
+   not proving. (One real LEZ Burn proof is measured separately, evidence/rfp022-sepolia.md §5.)
+   Ethereum releases: RISC0_DEV_MODE mock seal against RiscZeroMockVerifier (local only)
+   root signers: two LOCAL DEV KEYS on this machine (local only)
+   holders: one LEZ wallet each; b22 keys derived from the wallet mnemonic; single run, no resume
+== cfg 0x05ab34e2df16478a1890e35beb4f7c0a3f607d02bf5d7171c0c57f4592890782 (read from vault 0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9 CONFIG_ID)
+== 1. A deposits USDT twice (one left unclaimed) and ETH twice
+    [0.0 s] deposit USDT i=0 (Ethereum inclusion)
+  eth deposit A USDT i=0: 0x94cd24487c8318035bc7d47761f2e43a7089b91e20b6a294c6e97ba786d12746 block 6 C=0x43c276b9…d576
+    scan-leaks deposit calldata: clean (100 bytes; absent: nk, holder LEZ account)
+    [0.0 s] deposit USDT i=1 (Ethereum inclusion)
+  eth deposit A USDT i=1: 0x360afc2ac79c49d6913a3af0b5713f508faf2c75bfc8c91ab2bb9d34d09a6961 block 8 C=0x16f9160e…cca3
+    scan-leaks deposit calldata: clean (100 bytes; absent: nk, holder LEZ account)
+    [0.0 s] deposit ETH i=0 (Ethereum inclusion)
+  eth deposit A ETH i=0: 0x26a4449c1a680ee64936d448aeba13188069a5d5f2f0e751391d73df732f301b block 9 C=0xf5a632e2…05aa
+    scan-leaks deposit calldata: clean (100 bytes; absent: nk, holder LEZ account)
+    [0.0 s] deposit ETH i=1 (Ethereum inclusion)
+  eth deposit A ETH i=1: 0x5c6762ba5c531f9a13ad2fc60129e4d99f91e0770f8bf6e73cb5ba7a9720f72a block 10 C=0xf480bb78…3e07
+    scan-leaks deposit calldata: clean (100 bytes; absent: nk, holder LEZ account)
+== 2. Ethereum finality + attest relay
+  lez attest Update (devnet beacon finalizes deposit block): 006507201f56ba9d998cd8c2bdc200b415c6fd4a385e41e52ee46d19111d6fe3 block 213
+  lez attest Update (devnet beacon finalizes deposit block): 3d26c03aa8a4310951bd186301230fee030710b8ea253aafa2143597995073e5 block 223
+  lez attest Update (devnet beacon finalizes deposit block): fa423b4b1eb7d4cba1b3944116df7042fd468054ff803db01779298e1a4103bf block 233
+  lez attest Update (devnet beacon finalizes deposit block): 7f956ac0fb81dfd650d9da8c608940054c894eecd20108e07b9303581584cb4d block 243
+    [120.1 s] Ethereum finality + attest relay (devnet beacon: 4 Update txs)
+== 3. A claims USDT i=0, ETH i=0 and ETH i=1 privately
+    [31.6 s] claim USDT i=0 (LEZ dev-mode tx + inclusion)
+  lez claim A USDT i=0: 98e1d71f10f8779be753671d7f30c1ff8f9e02d668f91a48356c7a65310507b8 block 254 ok (anchor leaf 1, 0 ancestry)
+    scan-leaks claim: clean (32074 bytes; absent: deposit block hash, header PDA, commitment C, nk, holder account, receipt, vault address)
+    [30.8 s] claim ETH i=0 (LEZ dev-mode tx + inclusion)
+  lez claim A ETH i=0: 5ccf994fcebead18d8fa1da1f32f37af734709d9b6d5b084e238d2cb32fcf28a block 264 ok (anchor leaf 3, 0 ancestry)
+    scan-leaks claim: clean (32074 bytes; absent: deposit block hash, header PDA, commitment C, nk, holder account, receipt, vault address)
+    [30.8 s] claim ETH i=1 (LEZ dev-mode tx + inclusion)
+  lez claim A ETH i=1: 98a99ff0ccef9f6d96092061e2001a96bddbaf4773cf2ae57b21e63ba1ba2f69 block 274 ok (anchor leaf 4, 0 ancestry)
+    scan-leaks claim: clean (32074 bytes; absent: deposit block hash, header PDA, commitment C, nk, holder account, receipt, vault address)
+== 4. A transfers 100000000 USDT to B's own wallet (send tx + B's receive tx)
+    [30.4 s] transfer A→B send (LEZ dev-mode tx + inclusion)
+  lez transfer A→B USDT 100000000 (send): 147500f3c3d8019cffd821fa64476838a1dd41ba85a9910864c71309d3b4d613 block 284 ok
+    scan-leaks transfer send: clean (34193 bytes; absent: sender account, recipient account)
+    [30.4 s] receive B (LEZ dev-mode tx + inclusion)
+  lez receive B [(0, [5, 171, 52, 226, 223, 22, 71, 138, 24, 144, 227, 91, 235, 79, 124, 10, 63, 96, 125, 2, 191, 93, 113, 113, 192, 197, 127, 69, 146, 137, 7, 130], [231, 241, 114, 94, 119, 52, 206, 40, 143, 131, 103, 225, 187, 20, 62, 144, 187, 63, 5, 18], 100000000)]: aea890804d9963ea452c827a5b571eb9f19c916e9aeec3b4b2a3af4815f09089 block 295 ok
+    scan-leaks transfer receive: clean (30913 bytes; absent: A, B)
+== 5. B burns USDT; both signers sign; root accepted; freezer revokes that fresh root
+    [30.7 s] burn B USDT (LEZ dev-mode tx + inclusion)
+  lez burn B USDT j=0 leaf 0: c24ab18b0662daaa92cbc91e0dafd2c9b33fae6db397af6268b3d4e4cf63ba4d block 305 ok B=0x7e69051d…bb4b
+    scan-leaks burn: clean (31898 bytes; absent: rk, recipient_j, Nb, holder account)
+    [1.8 s] root signing, both signers (USDT; includes LEZ depth wait)
+    both signers: digest 0xf7043ecb…eb12 at lezHeight 315 (count 1)
+    [0.0 s] acceptBurnRoot USDT (Ethereum inclusion)
+  eth acceptBurnRoot USDT root 0x571c8e4c…bf70 count 1 lezHeight 315: 0x13606441bbac578f7e2fcf23462311276411dbb33d11914e54d7cff54cfd39b4 block 11 gas 69357 lezBlockHash 0xcfef500c…dda3
+  eth revokeRoot USDT 0x571c8e4c…bf70: 0xa5b7d7ccdf556c57d2f1bb39378dfe03ed2f826566b60a6047405f1d695b1295 block 12
+== 6. A burns ETH i=0's unit (no release yet); ETH root accepted
+    [30.8 s] burn A ETH (LEZ dev-mode tx + inclusion)
+  lez burn A ETH j=0 leaf 0: 67dcedcd99cac6bdbe41ffd9cf8af65805a343eb245a2b7223642c3a1db487c4 block 316 ok B=0x8df58195…c6a0
+    scan-leaks burn: clean (31898 bytes; absent: rk, recipient_j, Nb, holder account)
+    [2.2 s] root signing, both signers (ETH; includes LEZ depth wait)
+    both signers: digest 0x6b7ef5f9…cfff at lezHeight 326 (count 1)
+    [0.0 s] acceptBurnRoot ETH (Ethereum inclusion)
+  eth acceptBurnRoot ETH root 0xf89c8519…c934 count 1 lezHeight 326: 0x9202fb8c8fa709f8e9f945cb07b193d74a2eb3968248af090bc2c8f336c54682 block 13 gas 69141 lezBlockHash 0xcad28113…372b
+== 7. wipe A's client state AND A's LEZ wallet; recover from A's mnemonic alone
+    wiped: notes/A.json, cache.json, wallets/A/storage.json (+ .nullifiers); kept: deployment.json (public deployment facts), wallets/A/wallet_config.json (RPC endpoint)
+    restored A's wallet from the mnemonic: holder account A37YMcoD616JvXr8NLPDEKktiFYKzwnPYZGPxjFh9D9F (same as before)
+  recover A (account A37YMcoD616JvXr8NLPDEKktiFYKzwnPYZGPxjFh9D9F): pairs scanned 2; unclaimed deposits [("USDT", 1)]; unreleased burns [("ETH", 0, 0)]; claimed 3 released 0; pending credits []; LEZ holdings [("ETH", 10000000000000000)]
+    [1.1 s] recovery: wallet restore + chain scan (A)
+== 8. A claims the recovered deposit (from the restored wallet)
+    [30.8 s] claim USDT i=1 (LEZ dev-mode tx + inclusion)
+  lez claim A USDT i=1: 1cb3512546218d2ab65441cd597966cdb11bc072210d2c53070c06e33cd64fa6 block 327 ok (anchor leaf 2, 0 ancestry)
+    scan-leaks claim: clean (32074 bytes; absent: deposit block hash, header PDA, commitment C, nk, holder account, receipt, vault address)
+== 9. A burns the recovered USDT → a later USDT root; B releases under it (after the revoked one)
+    [30.7 s] burn A USDT (LEZ dev-mode tx + inclusion)
+  lez burn A USDT j=1 leaf 1: 2854b8b8088cc6339a143fb710460f712ec7c965b3dc28f40878fb3d945ab42e block 337 ok B=0xdc73c794…5e36
+    scan-leaks burn: clean (31898 bytes; absent: rk, recipient_j, Nb, holder account)
+    [0.3 s] root signing, both signers (USDT; includes LEZ depth wait)
+    both signers: digest 0x51fc394a…4ce8 at lezHeight 347 (count 2)
+    [0.0 s] acceptBurnRoot USDT (Ethereum inclusion)
+  eth acceptBurnRoot USDT root 0xa74576b7…f559 count 2 lezHeight 347: 0x9655e35db20254c312c37c63f76c120c01b8697856f41d14f5b9ca169b1b91d0 block 14 gas 69345 lezBlockHash 0x8f42dda1…4a62
+    [0.0 s] membership proof + wrap (mock seal)
+    probe release before the delay: reverted, selector 0xe1353c3d = ReleaseTooEarly() expected 0xe1353c3d
+    (anvil: evm_increaseTime 600 s for the 600 s release delay)
+    [0.0 s] release delay
+    [0.0 s] release USDT (Ethereum inclusion)
+  eth release USDT to 0x8382a5f17193b986221b62782dcd9130cba1f57d fee 1000000: 0x78301b973418f6b9933f73716c013366e44ee1ebcbf8e26d935a3611ffbeb72c block 16 gas 165894
+    scan-leaks release (B): clean (1613 bytes; absent: burn commitment B, rk, B's LEZ account, B's sk)
+    B's recipient_0 0x8382a5f17193b986221b62782dcd9130cba1f57d USDT +99000000
+    probe replayed release: reverted, selector 0x63734faa = NullifierSpent() expected 0x63734faa
+    probe release under the revoked root: reverted, selector 0x52053cdb = RootRevoked() expected 0x52053cdb
+== 10. freeze each half and probe it (Ethereum vault deposits/releases, LEZ mint/burn)
+  eth vault setFrozen(deposits=true, releases=false): 0x57266fb5d012e956e9fae2c2fde9cd23bc762daeb25c9f85127f9c54a9d80e91 block 17
+    probe deposit while deposits frozen: reverted, selector 0xa8cab3d1 = Frozen() expected 0xa8cab3d1
+  eth vault setFrozen(deposits=false, releases=false): 0xc47e5af23bf03b9fd095f9e191b1bc3a4c8727f492b7add43b9f23744482939c block 18
+    (anvil: evm_increaseTime 0 s for the 600 s release delay)
+    [0.0 s] ETH release delay
+    [0.0 s] membership proof + wrap (mock seal)
+  eth vault setFrozen(deposits=false, releases=true): 0x0cbc5cd3238ab5d034d575baf1157e7d18b5a6aa3a362ecff16766bde92b4926 block 20
+    probe release while releases frozen: reverted, selector 0xa8cab3d1 = Frozen() expected 0xa8cab3d1
+  eth vault setFrozen(deposits=false, releases=false): 0x7ae03efb88165f112a450238ac2eafd4ffdd6fa30293a9de99876c8bbde2b3a6 block 21
+    [0.0 s] release ETH (Ethereum inclusion)
+  eth release ETH to 0x24f7f4200c877656e529cce1b47aa2f8ef1fd0ac fee 100000000000000: 0x8c65b4533252ff9a89cb18b09b1486bfb5dfced90eed03a94be2a99aec3a2418 block 22 gas 134745
+    A's recovered recipient_0 0x24f7f4200c877656e529cce1b47aa2f8ef1fd0ac ETH 0 → 9900000000000000
+    scan-leaks release (A, ETH): clean (358 bytes; absent: burn commitment B, rk, A's LEZ account, A's sk)
+  lez LEZ Freeze Global(mint=true, burn=false): ba0118d65abb81e8c0e3568e459d0f2880470b708ef27867d6208d8f0d4c57ee block 348 ok
+    probe claim while LEZ mint paused: refused, LEZ error code Some(1304) (expected 1304)
+  lez LEZ Freeze Global(mint=false, burn=false): ff9fbc4ef28e10704fffc7a47fe74e259a5fcd27fbbe9a0671f67439c1c330c2 block 358 ok
+    probe same replayed claim, mint unpaused: refused, LEZ error code Some(1250) (expected 1250)
+  lez LEZ Freeze Global(mint=false, burn=true): 9c9ff3bb076ddd48efc95729ab393c0c7518b6d9734454a439e105868fbaa487 block 368 ok
+    probe burn while LEZ burn paused: refused, LEZ error code Some(1304) (expected 1304)
+  lez LEZ Freeze Global(mint=false, burn=false): c656c9c7a578829ba2071afb5732580875301f30fee7f9fdd815bdd94a482c96 block 378 ok
+
+== transcript: transactions
+| step | chain | tx |
+|---|---|---|
+| deposit A USDT i=0 | eth | 0x94cd24487c8318035bc7d47761f2e43a7089b91e20b6a294c6e97ba786d12746 block 6 C=0x43c276b9…d576 |
+| deposit A USDT i=1 | eth | 0x360afc2ac79c49d6913a3af0b5713f508faf2c75bfc8c91ab2bb9d34d09a6961 block 8 C=0x16f9160e…cca3 |
+| deposit A ETH i=0 | eth | 0x26a4449c1a680ee64936d448aeba13188069a5d5f2f0e751391d73df732f301b block 9 C=0xf5a632e2…05aa |
+| deposit A ETH i=1 | eth | 0x5c6762ba5c531f9a13ad2fc60129e4d99f91e0770f8bf6e73cb5ba7a9720f72a block 10 C=0xf480bb78…3e07 |
+| attest Update (devnet beacon finalizes deposit block) | lez | 006507201f56ba9d998cd8c2bdc200b415c6fd4a385e41e52ee46d19111d6fe3 block 213 |
+| attest Update (devnet beacon finalizes deposit block) | lez | 3d26c03aa8a4310951bd186301230fee030710b8ea253aafa2143597995073e5 block 223 |
+| attest Update (devnet beacon finalizes deposit block) | lez | fa423b4b1eb7d4cba1b3944116df7042fd468054ff803db01779298e1a4103bf block 233 |
+| attest Update (devnet beacon finalizes deposit block) | lez | 7f956ac0fb81dfd650d9da8c608940054c894eecd20108e07b9303581584cb4d block 243 |
+| claim A USDT i=0 | lez | 98e1d71f10f8779be753671d7f30c1ff8f9e02d668f91a48356c7a65310507b8 block 254 ok (anchor leaf 1, 0 ancestry) |
+| claim A ETH i=0 | lez | 5ccf994fcebead18d8fa1da1f32f37af734709d9b6d5b084e238d2cb32fcf28a block 264 ok (anchor leaf 3, 0 ancestry) |
+| claim A ETH i=1 | lez | 98a99ff0ccef9f6d96092061e2001a96bddbaf4773cf2ae57b21e63ba1ba2f69 block 274 ok (anchor leaf 4, 0 ancestry) |
+| transfer A→B USDT 100000000 (send) | lez | 147500f3c3d8019cffd821fa64476838a1dd41ba85a9910864c71309d3b4d613 block 284 ok |
+| receive B [(0, [5, 171, 52, 226, 223, 22, 71, 138, 24, 144, 227, 91, 235, 79, 124, 10, 63, 96, 125, 2, 191, 93, 113, 113, 192, 197, 127, 69, 146, 137, 7, 130], [231, 241, 114, 94, 119, 52, 206, 40, 143, 131, 103, 225, 187, 20, 62, 144, 187, 63, 5, 18], 100000000)] | lez | aea890804d9963ea452c827a5b571eb9f19c916e9aeec3b4b2a3af4815f09089 block 295 ok |
+| burn B USDT j=0 leaf 0 | lez | c24ab18b0662daaa92cbc91e0dafd2c9b33fae6db397af6268b3d4e4cf63ba4d block 305 ok B=0x7e69051d…bb4b |
+| acceptBurnRoot USDT root 0x571c8e4c…bf70 count 1 lezHeight 315 | eth | 0x13606441bbac578f7e2fcf23462311276411dbb33d11914e54d7cff54cfd39b4 block 11 gas 69357 lezBlockHash 0xcfef500c…dda3 |
+| revokeRoot USDT 0x571c8e4c…bf70 | eth | 0xa5b7d7ccdf556c57d2f1bb39378dfe03ed2f826566b60a6047405f1d695b1295 block 12 |
+| burn A ETH j=0 leaf 0 | lez | 67dcedcd99cac6bdbe41ffd9cf8af65805a343eb245a2b7223642c3a1db487c4 block 316 ok B=0x8df58195…c6a0 |
+| acceptBurnRoot ETH root 0xf89c8519…c934 count 1 lezHeight 326 | eth | 0x9202fb8c8fa709f8e9f945cb07b193d74a2eb3968248af090bc2c8f336c54682 block 13 gas 69141 lezBlockHash 0xcad28113…372b |
+| claim A USDT i=1 | lez | 1cb3512546218d2ab65441cd597966cdb11bc072210d2c53070c06e33cd64fa6 block 327 ok (anchor leaf 2, 0 ancestry) |
+| burn A USDT j=1 leaf 1 | lez | 2854b8b8088cc6339a143fb710460f712ec7c965b3dc28f40878fb3d945ab42e block 337 ok B=0xdc73c794…5e36 |
+| acceptBurnRoot USDT root 0xa74576b7…f559 count 2 lezHeight 347 | eth | 0x9655e35db20254c312c37c63f76c120c01b8697856f41d14f5b9ca169b1b91d0 block 14 gas 69345 lezBlockHash 0x8f42dda1…4a62 |
+| release USDT to 0x8382a5f17193b986221b62782dcd9130cba1f57d fee 1000000 | eth | 0x78301b973418f6b9933f73716c013366e44ee1ebcbf8e26d935a3611ffbeb72c block 16 gas 165894 |
+| vault setFrozen(deposits=true, releases=false) | eth | 0x57266fb5d012e956e9fae2c2fde9cd23bc762daeb25c9f85127f9c54a9d80e91 block 17 |
+| vault setFrozen(deposits=false, releases=false) | eth | 0xc47e5af23bf03b9fd095f9e191b1bc3a4c8727f492b7add43b9f23744482939c block 18 |
+| vault setFrozen(deposits=false, releases=true) | eth | 0x0cbc5cd3238ab5d034d575baf1157e7d18b5a6aa3a362ecff16766bde92b4926 block 20 |
+| vault setFrozen(deposits=false, releases=false) | eth | 0x7ae03efb88165f112a450238ac2eafd4ffdd6fa30293a9de99876c8bbde2b3a6 block 21 |
+| release ETH to 0x24f7f4200c877656e529cce1b47aa2f8ef1fd0ac fee 100000000000000 | eth | 0x8c65b4533252ff9a89cb18b09b1486bfb5dfced90eed03a94be2a99aec3a2418 block 22 gas 134745 |
+| LEZ Freeze Global(mint=true, burn=false) | lez | ba0118d65abb81e8c0e3568e459d0f2880470b708ef27867d6208d8f0d4c57ee block 348 ok |
+| LEZ Freeze Global(mint=false, burn=false) | lez | ff9fbc4ef28e10704fffc7a47fe74e259a5fcd27fbbe9a0671f67439c1c330c2 block 358 ok |
+| LEZ Freeze Global(mint=false, burn=true) | lez | 9c9ff3bb076ddd48efc95729ab393c0c7518b6d9734454a439e105868fbaa487 block 368 ok |
+| LEZ Freeze Global(mint=false, burn=false) | lez | c656c9c7a578829ba2071afb5732580875301f30fee7f9fdd815bdd94a482c96 block 378 ok |
+
+== latency table (LEZ rows: dev mode, no proving)
+| step | seconds |
+|---|---:|
+| deposit USDT i=0 (Ethereum inclusion) | 0.0 |
+| deposit USDT i=1 (Ethereum inclusion) | 0.0 |
+| deposit ETH i=0 (Ethereum inclusion) | 0.0 |
+| deposit ETH i=1 (Ethereum inclusion) | 0.0 |
+| Ethereum finality + attest relay (devnet beacon: 4 Update txs) | 120.1 |
+| claim USDT i=0 (LEZ dev-mode tx + inclusion) | 31.6 |
+| claim ETH i=0 (LEZ dev-mode tx + inclusion) | 30.8 |
+| claim ETH i=1 (LEZ dev-mode tx + inclusion) | 30.8 |
+| transfer A→B send (LEZ dev-mode tx + inclusion) | 30.4 |
+| receive B (LEZ dev-mode tx + inclusion) | 30.4 |
+| burn B USDT (LEZ dev-mode tx + inclusion) | 30.7 |
+| root signing, both signers (USDT; includes LEZ depth wait) | 1.8 |
+| acceptBurnRoot USDT (Ethereum inclusion) | 0.0 |
+| burn A ETH (LEZ dev-mode tx + inclusion) | 30.8 |
+| root signing, both signers (ETH; includes LEZ depth wait) | 2.2 |
+| acceptBurnRoot ETH (Ethereum inclusion) | 0.0 |
+| recovery: wallet restore + chain scan (A) | 1.1 |
+| claim USDT i=1 (LEZ dev-mode tx + inclusion) | 30.8 |
+| burn A USDT (LEZ dev-mode tx + inclusion) | 30.7 |
+| root signing, both signers (USDT; includes LEZ depth wait) | 0.3 |
+| acceptBurnRoot USDT (Ethereum inclusion) | 0.0 |
+| membership proof + wrap (mock seal) | 0.0 |
+| release delay D | 600.0 |
+| release USDT (Ethereum inclusion) | 0.0 |
+| membership proof + wrap (mock seal) | 0.0 |
+| release ETH (Ethereum inclusion) | 0.0 |
+
+b22 e2e --local: PASS in 1162 s (one run, no resume)
+=== STEP e2e-local EXIT=0 23:16:54

@@ -1,0 +1,74 @@
+# eth_attest_module LEZ headless transcript — 2026-11-05T12:03:30Z, aarch64-linux, sequencer http://host.docker.internal:3040
+
+$ ctl daemon start --detach
+Daemon started (pid 658)
+Logs: /tmp/tmp.gBKkH9Xmij/session/logs/daemon.log
+
+$ ctl install beacon-lgx/logos-beacon_api_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.gBKkH9Xmij/beacon-lgx/logos-beacon_api_module-module-lib.lgx","fromVersion":"","name":"beacon_api_module","signature":"unsigned","toVersion":"0.1.1"}],"installed":["beacon_api_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl install ethrpc-lgx/logos-eth_rpc_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.gBKkH9Xmij/ethrpc-lgx/logos-eth_rpc_module-module-lib.lgx","fromVersion":"","name":"eth_rpc_module","signature":"unsigned","toVersion":"0.1.0"}],"installed":["eth_rpc_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl install attest-lgx/logos-eth_attest_module-module-lib.lgx -y
+{"affected_loaded":[],"changes":[{"action":"install","file":"/tmp/tmp.gBKkH9Xmij/attest-lgx/logos-eth_attest_module-module-lib.lgx","fromVersion":"","name":"eth_attest_module","signature":"unsigned","toVersion":"0.1.0"}],"installed":["eth_attest_module"],"op":"install","reloaded":[],"status":"ok","stopped_dependents":[]}
+
+$ ctl module load beacon_api_module
+{"dependencies_loaded":[],"module":"beacon_api_module","status":"ok","version":"0.1.1"}
+
+$ ctl module load eth_rpc_module
+{"dependencies_loaded":[],"module":"eth_rpc_module","optional_skipped":[{"module":"verified_proxy_module","named_by":"eth_rpc_module","reason":"not_installed"}],"status":"ok","version":"0.1.0"}
+
+$ ctl module load eth_attest_module
+{"dependencies_loaded":[],"module":"eth_attest_module","optional_skipped":[{"module":"verified_proxy_module","named_by":"eth_rpc_module","reason":"not_installed"}],"status":"ok","version":"0.1.0"}
+
+$ ctl call eth_attest_module read_instance 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9
+{"method":"read_instance","module":"eth_attest_module","result":"{\"error\":\"set_chain_config(11155111, {lezRpc, attestProgram}) first\",\"errorCode\":\"lez_config\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module set_chain_config 11155111 str:{"lezRpc":"http://host.docker.internal:3040","attestProgram":"4ZyXXGxaw83mTWZc8fRRTnSDSR6Qhq9d8taM8QWhR9wd"}
+{"method":"set_chain_config","module":"eth_attest_module","result":"{\"attestProgram\":\"4ZyXXGxaw83mTWZc8fRRTnSDSR6Qhq9d8taM8QWhR9wd\",\"chainId\":11155111,\"checkpointRoot\":\"\",\"elRpc\":\"\",\"lezRpc\":\"http://host.docker.internal:3040\",\"ok\":true,\"operatorKeyFile\":\"\"}","status":"ok"}
+
+$ ctl call eth_attest_module read_instance 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9
+{"method":"read_instance","module":"eth_attest_module","result":"{\"chainId\":11155111,\"executionBlockHash\":\"0x5eaed69458fdb8b16fa30488b6a315abb3c103881a6c713f67ee5102dbf34043\",\"finalizedSlot\":11512128,\"headerRoot\":\"0x116bc43c31fa816581eaf68e9bf336fbb6f5ed2bef8f17ab69a853202e2693a2\",\"headers\":2,\"instanceId\":\"0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9\",\"nextKnown\":true,\"ok\":true,\"period\":1405}","status":"ok"}
+
+$ ctl call eth_attest_module read_instance 0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+{"method":"read_instance","module":"eth_attest_module","result":"{\"error\":\"instance eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee not initialised\",\"errorCode\":\"lez_read\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 str:{}
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"set_chain_config(11155111, {operatorKeyFile}) first\",\"errorCode\":\"lez_config\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module set_chain_config 11155111 str:{"operatorKeyFile":"/tmp/tmp.gBKkH9Xmij/key-0644"}
+{"method":"set_chain_config","module":"eth_attest_module","result":"{\"attestProgram\":\"4ZyXXGxaw83mTWZc8fRRTnSDSR6Qhq9d8taM8QWhR9wd\",\"chainId\":11155111,\"checkpointRoot\":\"\",\"elRpc\":\"\",\"lezRpc\":\"http://host.docker.internal:3040\",\"ok\":true,\"operatorKeyFile\":\"/tmp/tmp.gBKkH9Xmij/key-0644\"}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 str:{}
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"operator key /tmp/tmp.gBKkH9Xmij/key-0644 has mode 644; must be 0600 (owner-only)\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module set_chain_config 11155111 str:{"operatorKeyFile":"<repo>/target/live-run-final/module-key.hex"}
+{"method":"set_chain_config","module":"eth_attest_module","result":"{\"attestProgram\":\"4ZyXXGxaw83mTWZc8fRRTnSDSR6Qhq9d8taM8QWhR9wd\",\"chainId\":11155111,\"checkpointRoot\":\"\",\"elRpc\":\"\",\"lezRpc\":\"http://host.docker.internal:3040\",\"ok\":true,\"operatorKeyFile\":\"<repo>/target/live-run-final/module-key.hex\"}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 str:{}
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module read_instance 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9
+{"method":"read_instance","module":"eth_attest_module","result":"{\"chainId\":11155111,\"executionBlockHash\":\"0x5eaed69458fdb8b16fa30488b6a315abb3c103881a6c713f67ee5102dbf34043\",\"finalizedSlot\":11512128,\"headerRoot\":\"0x116bc43c31fa816581eaf68e9bf336fbb6f5ed2bef8f17ab69a853202e2693a2\",\"headers\":2,\"instanceId\":\"0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9\",\"nextKnown\":true,\"ok\":true,\"period\":1405}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 1, 12:03:33
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 2, 12:03:53
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 3, 12:04:14
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 4, 12:04:34
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 5, 12:04:54
+{"method":"submit_update","module":"eth_attest_module","result":"{\"error\":\"pre-check rejected update: 1106 UpdateNotNewer\",\"errorCode\":\"lez_submit\",\"ok\":false}","status":"ok"}
+
+$ ctl call eth_attest_module submit_update 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9 'str:{}'   # try 6, 12:05:16
+{"method":"submit_update","module":"eth_attest_module","result":"{\"chainId\":11155111,\"executionBlockHash\":\"0xfa3b803659de2170d2eac951e8dfe633835667f1db91ef7b1f94ccf89655055f\",\"finalizedSlot\":11512160,\"headerRoot\":\"0x5045e138963e36495960f8752ffa23d23e3e31ef3a552dfdeb95d3aaafa8a313\",\"headers\":3,\"instanceId\":\"0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9\",\"nextKnown\":true,\"ok\":true,\"period\":1405,\"txs\":\"7714963e797c185ff316f2d9a0ef5e72c0f5cac187d4763244af488b90ad5794\"}","status":"ok"}
+
+$ ctl call eth_attest_module read_instance 0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9
+{"method":"read_instance","module":"eth_attest_module","result":"{\"chainId\":11155111,\"executionBlockHash\":\"0xfa3b803659de2170d2eac951e8dfe633835667f1db91ef7b1f94ccf89655055f\",\"finalizedSlot\":11512160,\"headerRoot\":\"0x5045e138963e36495960f8752ffa23d23e3e31ef3a552dfdeb95d3aaafa8a313\",\"headers\":3,\"instanceId\":\"0x5a6e9b8681f9a99148cedbab79b57146e34ac745c6907fe334758b0d137806d9\",\"nextKnown\":true,\"ok\":true,\"period\":1405}","status":"ok"}

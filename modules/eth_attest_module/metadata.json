@@ -1,0 +1,48 @@
+{
+  "name": "eth_attest_module",
+  "display_name": "Ethereum Attestation Module (RFP-021)",
+  "version": "0.1.0",
+  "description": "Produce and dry-run-verify light-client-backed Ethereum attestations (account / storage slot / receipt log + predicate). Beacon light-client material via beacon_api_module; EL headers/receipts via verified_proxy_module, eth_getProof via eth_rpc_module.",
+  "author": "Protofire",
+  "type": "core",
+  "interface": "cdylib",
+  "category": "wallet",
+  "main": "eth_attest_module_plugin",
+  "dependencies": [
+    {
+      "name": "beacon_api_module",
+      "version": "~0.1.0"
+    },
+    {
+      "name": "eth_rpc_module",
+      "version": "~0.1.0"
+    },
+    {
+      "name": "verified_proxy_module",
+      "version": "~0.1.0"
+    }
+  ],
+  "include": [],
+  "capabilities": [],
+  "codegen": {
+    "rust": {
+      "crate": "rust-lib",
+      "trait": "EthAttestModule",
+      "source": "src/glue.rs"
+    }
+  },
+  "nix": {
+    "external_libraries": [],
+    "packages": {
+      "build": [],
+      "runtime": []
+    },
+    "cmake": {
+      "find_packages": [],
+      "extra_include_dirs": []
+    },
+    "rust": {
+      "toolchain": "1.98.1"
+    }
+  }
+}

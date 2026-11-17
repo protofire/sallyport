@@ -1,0 +1,604 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rfp021/adversarial-vector/v1",
+  "title": "RFP-021 adversarial vector",
+  "type": "object",
+  "required": [
+    "id",
+    "targets",
+    "layer",
+    "input",
+    "expected_error",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^(VS[1-6](\\.[a-f])?|F[0-9]{1,2})$"
+      }
+    },
+    "layer": {
+      "enum": [
+        "bootstrap",
+        "update",
+        "attest"
+      ]
+    },
+    "expected_error": {
+      "enum": [
+        0,
+        1001,
+        1002,
+        1003,
+        1101,
+        1102,
+        1103,
+        1104,
+        1105,
+        1106,
+        1107,
+        1201,
+        1202,
+        1203,
+        1204
+      ]
+    },
+    "accept_also": {
+      "type": "array",
+      "items": {
+        "enum": [
+          1001,
+          1002,
+          1003,
+          1101,
+          1102,
+          1103,
+          1104,
+          1105,
+          1106,
+          1107,
+          1201,
+          1202,
+          1203,
+          1204
+        ]
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 10
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "config",
+        "bootstrap",
+        "updates",
+        "attest"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "config": {
+          "type": "object",
+          "required": [
+            "chain_id",
+            "genesis_validators_root",
+            "fork_versions",
+            "gloas_fork_epoch",
+            "min_participation",
+            "ws_period_epochs",
+            "checkpoint_root",
+            "current_slot"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "chain_id": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "genesis_validators_root": {
+              "$ref": "#/$defs/b32"
+            },
+            "fork_versions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "epoch",
+                  "version"
+                ],
+                "properties": {
+                  "epoch": {
+                    "type": "integer"
+                  },
+                  "version": {
+                    "$ref": "#/$defs/b4"
+                  }
+                }
+              }
+            },
+            "gloas_fork_epoch": {
+              "type": "integer"
+            },
+            "min_participation": {
+              "type": "integer"
+            },
+            "ws_period_epochs": {
+              "type": "integer"
+            },
+            "checkpoint_root": {
+              "$ref": "#/$defs/b32"
+            },
+            "current_slot": {
+              "type": "integer"
+            }
+          }
+        },
+        "bootstrap": {
+          "$ref": "#/$defs/bootstrap"
+        },
+        "updates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/update"
+          }
+        },
+        "attest": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/attest"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^0x([0-9a-f]{2})*$"
+    },
+    "b4": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{8}$"
+    },
+    "b32": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{64}$"
+    },
+    "uint": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "beacon_header": {
+      "type": "object",
+      "required": [
+        "slot",
+        "proposer_index",
+        "parent_root",
+        "state_root",
+        "body_root"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "slot": {
+          "$ref": "#/$defs/uint"
+        },
+        "proposer_index": {
+          "$ref": "#/$defs/uint"
+        },
+        "parent_root": {
+          "$ref": "#/$defs/b32"
+        },
+        "state_root": {
+          "$ref": "#/$defs/b32"
+        },
+        "body_root": {
+          "$ref": "#/$defs/b32"
+        }
+      }
+    },
+    "lc_header": {
+      "type": "object",
+      "required": [
+        "beacon",
+        "execution_block_hash",
+        "execution_branch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "beacon": {
+          "$ref": "#/$defs/beacon_header"
+        },
+        "execution_block_hash": {
+          "$ref": "#/$defs/b32"
+        },
+        "execution_branch": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        }
+      }
+    },
+    "committee": {
+      "type": "object",
+      "required": [
+        "pubkeys",
+        "aggregate_pubkey"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pubkeys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "aggregate_pubkey": {
+          "$ref": "#/$defs/hex"
+        }
+      }
+    },
+    "bootstrap": {
+      "type": "object",
+      "required": [
+        "header",
+        "current_sync_committee",
+        "current_sync_committee_branch"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/lc_header"
+        },
+        "current_sync_committee": {
+          "$ref": "#/$defs/committee"
+        },
+        "current_sync_committee_branch": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        }
+      }
+    },
+    "update": {
+      "description": "LightClientUpdate (has next_sync_committee), FinalityUpdate (has finalized_header), or OptimisticUpdate (neither). Beacon-API JSON shape.",
+      "type": "object",
+      "required": [
+        "attested_header",
+        "sync_aggregate",
+        "signature_slot"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "attested_header": {
+          "$ref": "#/$defs/lc_header"
+        },
+        "next_sync_committee": {
+          "$ref": "#/$defs/committee"
+        },
+        "next_sync_committee_branch": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "finalized_header": {
+          "$ref": "#/$defs/lc_header"
+        },
+        "finality_branch": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "sync_aggregate": {
+          "type": "object",
+          "required": [
+            "sync_committee_bits",
+            "sync_committee_signature"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sync_committee_bits": {
+              "$ref": "#/$defs/hex"
+            },
+            "sync_committee_signature": {
+              "$ref": "#/$defs/hex"
+            },
+            "non_signers_hint": {
+              "description": "Optional, untrusted. Pubkeys the submitter claims did not sign. Bits are authoritative.",
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/hex"
+              }
+            }
+          }
+        },
+        "signature_slot": {
+          "$ref": "#/$defs/uint"
+        }
+      }
+    },
+    "locator": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "address"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "account"
+            },
+            "address": {
+              "$ref": "#/$defs/hex"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "address",
+            "slot"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "storage"
+            },
+            "address": {
+              "$ref": "#/$defs/hex"
+            },
+            "slot": {
+              "$ref": "#/$defs/b32"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "tx_index",
+            "log_index"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "log"
+            },
+            "tx_index": {
+              "type": "integer"
+            },
+            "log_index": {
+              "type": "integer"
+            }
+          }
+        }
+      ]
+    },
+    "attest": {
+      "type": "object",
+      "required": [
+        "header",
+        "el_header_rlp",
+        "locator",
+        "proof",
+        "predicate",
+        "expected_fact"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "header": {
+          "$ref": "#/$defs/lc_header",
+          "description": "The LightClientHeader the claim is made under; must be a header the store verified as finalised."
+        },
+        "el_header_rlp": {
+          "$ref": "#/$defs/hex"
+        },
+        "locator": {
+          "$ref": "#/$defs/locator"
+        },
+        "proof": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "account_proof": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/hex"
+              }
+            },
+            "storage_proof": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "key",
+                  "proof"
+                ],
+                "properties": {
+                  "key": {
+                    "$ref": "#/$defs/hex"
+                  },
+                  "proof": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/hex"
+                    }
+                  }
+                }
+              }
+            },
+            "receipt_proof": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/hex"
+              }
+            }
+          }
+        },
+        "predicate": {
+          "type": "object",
+          "required": [
+            "op",
+            "field",
+            "value"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "op": {
+              "enum": [
+                "eq",
+                "ne",
+                "lt",
+                "le",
+                "gt",
+                "ge"
+              ]
+            },
+            "field": {
+              "type": "string",
+              "pattern": "^(nonce|balance|storage_root|code_hash|slot|log\\.address|log\\.topic[0-9]|log\\.data|log\\.status)$"
+            },
+            "value": {
+              "$ref": "#/$defs/hex"
+            }
+          }
+        },
+        "expected_fact": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": [
+                "chain_id",
+                "genesis_validators_root",
+                "execution_block_hash",
+                "block_number",
+                "locator",
+                "value",
+                "statement_id"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "chain_id": {
+                  "type": "integer"
+                },
+                "genesis_validators_root": {
+                  "$ref": "#/$defs/b32"
+                },
+                "execution_block_hash": {
+                  "$ref": "#/$defs/b32"
+                },
+                "block_number": {
+                  "type": "integer"
+                },
+                "locator": {
+                  "$ref": "#/$defs/locator"
+                },
+                "value": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "nonce",
+                        "balance",
+                        "storage_root",
+                        "code_hash"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "account"
+                        },
+                        "nonce": {
+                          "type": "integer"
+                        },
+                        "balance": {
+                          "$ref": "#/$defs/b32"
+                        },
+                        "storage_root": {
+                          "$ref": "#/$defs/b32"
+                        },
+                        "code_hash": {
+                          "$ref": "#/$defs/b32"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "value"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "slot"
+                        },
+                        "value": {
+                          "$ref": "#/$defs/b32"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "type",
+                        "address",
+                        "topics",
+                        "data",
+                        "status"
+                      ],
+                      "properties": {
+                        "type": {
+                          "const": "log"
+                        },
+                        "address": {
+                          "$ref": "#/$defs/hex"
+                        },
+                        "topics": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/$defs/b32"
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/$defs/hex"
+                        },
+                        "status": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "statement_id": {
+                  "$ref": "#/$defs/b32"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

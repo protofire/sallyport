@@ -1,0 +1,21 @@
+# Per-module release workflow (shape from logos-modules-release-base's release-module.yml.template).
+# The RFP-021 repo is ONE submodule holding the module in a subdirectory; the action supports a
+# module_path inside a submodule and inits only that submodule. Building from inside the submodule
+# checkout makes the flake a git+file flake, so its ../../crates sources resolve.
+name: Release eth_attest_module
+on:
+  workflow_dispatch:
+    inputs:
+      force_build:
+        description: "Force build — replace the current published release if it has the same version."
+        type: boolean
+        default: false
+permissions:
+  contents: write
+jobs:
+  release:
+    uses: ./.github/workflows/_release-module.yml
+    with:
+      module_path: submodules/sallyport/modules/eth_attest_module
+      force_build: ${{ inputs.force_build }}
+    secrets: inherit

@@ -1,0 +1,47 @@
+# HEAD 8be9338 (clean clone); 2026-11-12; Apple M2 Max 12 cores 32 GB, macOS arm64, quiet; CPU prover, bench built --no-default-features with the repo risc0-sys Metal patch (crates/bench/build.sh); RISC0_DEV_MODE unset; mode succinct; one run per row
+# row=update-finality
+RESULT action=update-finality step=0 label=attest:Update mode=succinct po2=default exec_cycles=6529823 exec_segments=7 prove_segments=7 prove_total_cycles=7340032 prove_user_cycles=6529823 prove_paging_cycles=471848 prove_ms=681678 receipt_bytes=326999 journal_bytes=103860
+RESULT action=update-finality step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35222 prove_ms=12481 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-finality step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=32929 prove_ms=12383 receipt_bytes=223399 journal_bytes=260
+# time_real_s=708.75 peak_rss_bytes=8394326016
+# row=update-learn
+RESULT action=update-learn step=0 label=attest:Update mode=succinct po2=default exec_cycles=6981360 exec_segments=8 prove_segments=8 prove_total_cycles=7864320 prove_user_cycles=6981360 prove_paging_cycles=516642 prove_ms=728949 receipt_bytes=326929 journal_bytes=103790
+# time_real_s=729.70 peak_rss_bytes=8489222144
+# row=update-k170
+RESULT action=update-k170 step=0 label=attest:Update mode=succinct po2=default exec_cycles=8441543 exec_segments=9 prove_segments=9 prove_total_cycles=9437184 prove_user_cycles=8441543 prove_paging_cycles=554808 prove_ms=868691 receipt_bytes=343799 journal_bytes=120660
+RESULT action=update-k170 step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35222 prove_ms=12531 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-k170 step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=32929 prove_ms=12542 receipt_bytes=223399 journal_bytes=260
+# time_real_s=894.94 peak_rss_bytes=8694169600
+# row=claim-s0
+RESULT action=claim step=0 label=erc20_receiver:Claim mode=succinct po2=default exec_cycles=39012 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=39012 prove_paging_cycles=45324 prove_ms=17113 receipt_bytes=230668 journal_bytes=7529
+# time_real_s=17.49 peak_rss_bytes=2282749952
+# row=claim-s1
+RESULT action=claim step=1 label=attest:Attest mode=succinct po2=default exec_cycles=70909 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=70909 prove_paging_cycles=51165 prove_ms=60015 receipt_bytes=227126 journal_bytes=3987
+# time_real_s=60.48 peak_rss_bytes=4968316928
+# row=claim-s2
+RESULT action=claim step=2 label=erc20_receiver:AttestReply mode=succinct po2=default exec_cycles=30602 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=30602 prove_paging_cycles=47643 prove_ms=17341 receipt_bytes=224349 journal_bytes=1210
+# time_real_s=17.71 peak_rss_bytes=2277294080
+# row=claim-s3
+RESULT action=claim step=3 label=erc20_receiver:Nullify mode=succinct po2=default exec_cycles=15322 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15322 prove_paging_cycles=32786 prove_ms=12547 receipt_bytes=223504 journal_bytes=365
+# time_real_s=12.91 peak_rss_bytes=1706098688
+# row=attest-eth
+RESULT action=attest-eth step=0 label=attest:Attest mode=succinct po2=default exec_cycles=61086 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=61086 prove_paging_cycles=50778 prove_ms=60022 receipt_bytes=226324 journal_bytes=3185
+# time_real_s=60.31 peak_rss_bytes=4769333248
+# row=attest-erc20
+RESULT action=attest-erc20 step=0 label=attest:Attest mode=succinct po2=default exec_cycles=76556 exec_segments=1 prove_segments=1 prove_total_cycles=262144 prove_user_cycles=76556 prove_paging_cycles=52144 prove_ms=69836 receipt_bytes=228158 journal_bytes=5019
+# time_real_s=70.18 peak_rss_bytes=5413666816
+# row=claim-inline-s0
+RESULT action=claim-inline step=0 label=erc20_inline_receiver:ClaimInline mode=succinct po2=default exec_cycles=90795 exec_segments=1 prove_segments=1 prove_total_cycles=262144 prove_user_cycles=90795 prove_paging_cycles=54151 prove_ms=69263 receipt_bytes=228083 journal_bytes=4944
+# time_real_s=69.68 peak_rss_bytes=5415239680
+# row=claim-inline-s1
+RESULT action=claim-inline step=1 label=attest:CheckHeader mode=succinct po2=default exec_cycles=14964 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=14964 prove_paging_cycles=33960 prove_ms=12481 receipt_bytes=223555 journal_bytes=416
+# time_real_s=12.85 peak_rss_bytes=1706573824
+# row=claim-inline-s2
+RESULT action=claim-inline step=2 label=erc20_inline_receiver:Nullify mode=succinct po2=default exec_cycles=15096 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15096 prove_paging_cycles=36123 prove_ms=12452 receipt_bytes=223504 journal_bytes=365
+# time_real_s=12.80 peak_rss_bytes=1707900928
+# row=private-claim: cargo test --release -p program-tests --features lee/prove --test private private_claim_cycles -- --nocapture (real LEZ privacy-preserving proof)
+test private_claim_cycles has been running for over 60 seconds
+test private_claim_cycles ... ok
+CYCLES private-claim total(as public) 143466  public part 46657  private transition ~96809
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 245.07s
+# time_real_s=259.97 peak_rss_bytes=8601518080

@@ -1,0 +1,86 @@
+# HEAD 48bc5e9 (guest code identical to 8be9338, see docs/BENCHMARKS.md); RTX 3080 CUDA 12.8 WSL2, quiet; mode succinct; warm-up discarded, 3 runs per case
+# 2026-11-12T16:49:26Z NVIDIA GeForce RTX 3080, 617.14, 12288 MiB
+# warmup
+RESULT action=attest-erc20-compact step=0 label=attest:Attest mode=succinct po2=default exec_cycles=69237 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=69237 prove_paging_cycles=51848 prove_ms=5112 receipt_bytes=226810 journal_bytes=3671
+# case=update-finality run=1
+RESULT action=update-finality step=0 label=attest:Update mode=succinct po2=default exec_cycles=6529823 exec_segments=7 prove_segments=7 prove_total_cycles=7340032 prove_user_cycles=6529823 prove_paging_cycles=466218 prove_ms=59286 receipt_bytes=326999 journal_bytes=103860
+RESULT action=update-finality step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=972 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-finality step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=892 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 788484
+# case=update-finality run=2
+RESULT action=update-finality step=0 label=attest:Update mode=succinct po2=default exec_cycles=6529823 exec_segments=7 prove_segments=7 prove_total_cycles=7340032 prove_user_cycles=6529823 prove_paging_cycles=466218 prove_ms=56302 receipt_bytes=326999 journal_bytes=103860
+RESULT action=update-finality step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=982 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-finality step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=925 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 786952
+# case=update-finality run=3
+RESULT action=update-finality step=0 label=attest:Update mode=succinct po2=default exec_cycles=6529823 exec_segments=7 prove_segments=7 prove_total_cycles=7340032 prove_user_cycles=6529823 prove_paging_cycles=466218 prove_ms=59723 receipt_bytes=326999 journal_bytes=103860
+RESULT action=update-finality step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=718 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-finality step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=725 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 788492
+# case=update-learn run=1
+RESULT action=update-learn step=0 label=attest:Update mode=succinct po2=default exec_cycles=6981360 exec_segments=8 prove_segments=8 prove_total_cycles=7864320 prove_user_cycles=6981360 prove_paging_cycles=511887 prove_ms=58879 receipt_bytes=326929 journal_bytes=103790
+	Maximum resident set size (kbytes): 738944
+# case=update-learn run=2
+RESULT action=update-learn step=0 label=attest:Update mode=succinct po2=default exec_cycles=6981360 exec_segments=8 prove_segments=8 prove_total_cycles=7864320 prove_user_cycles=6981360 prove_paging_cycles=511887 prove_ms=61790 receipt_bytes=326929 journal_bytes=103790
+	Maximum resident set size (kbytes): 738680
+# case=update-learn run=3
+RESULT action=update-learn step=0 label=attest:Update mode=succinct po2=default exec_cycles=6981360 exec_segments=8 prove_segments=8 prove_total_cycles=7864320 prove_user_cycles=6981360 prove_paging_cycles=511887 prove_ms=58315 receipt_bytes=326929 journal_bytes=103790
+	Maximum resident set size (kbytes): 738804
+# case=update-k170 run=1
+RESULT action=update-k170 step=0 label=attest:Update mode=succinct po2=default exec_cycles=8441543 exec_segments=9 prove_segments=9 prove_total_cycles=9437184 prove_user_cycles=8441543 prove_paging_cycles=546846 prove_ms=72556 receipt_bytes=343799 journal_bytes=120660
+RESULT action=update-k170 step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=711 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-k170 step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=722 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 817164
+# case=update-k170 run=2
+RESULT action=update-k170 step=0 label=attest:Update mode=succinct po2=default exec_cycles=8441543 exec_segments=9 prove_segments=9 prove_total_cycles=9437184 prove_user_cycles=8441543 prove_paging_cycles=546846 prove_ms=74231 receipt_bytes=343799 journal_bytes=120660
+RESULT action=update-k170 step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=720 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-k170 step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=710 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 816944
+# case=update-k170 run=3
+RESULT action=update-k170 step=0 label=attest:Update mode=succinct po2=default exec_cycles=8441543 exec_segments=9 prove_segments=9 prove_total_cycles=9437184 prove_user_cycles=8441543 prove_paging_cycles=546846 prove_ms=74765 receipt_bytes=343799 journal_bytes=120660
+RESULT action=update-k170 step=1 label=attest:Write1 mode=succinct po2=default exec_cycles=15698 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15698 prove_paging_cycles=35739 prove_ms=1165 receipt_bytes=223607 journal_bytes=468
+RESULT action=update-k170 step=2 label=attest:Write2 mode=succinct po2=default exec_cycles=13697 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=13697 prove_paging_cycles=33677 prove_ms=1092 receipt_bytes=223399 journal_bytes=260
+	Maximum resident set size (kbytes): 816736
+# case=attest-erc20-compact run=1
+RESULT action=attest-erc20-compact step=0 label=attest:Attest mode=succinct po2=default exec_cycles=69237 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=69237 prove_paging_cycles=51848 prove_ms=4416 receipt_bytes=226810 journal_bytes=3671
+	Maximum resident set size (kbytes): 536284
+# case=attest-erc20-compact run=2
+RESULT action=attest-erc20-compact step=0 label=attest:Attest mode=succinct po2=default exec_cycles=69237 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=69237 prove_paging_cycles=51848 prove_ms=4404 receipt_bytes=226810 journal_bytes=3671
+	Maximum resident set size (kbytes): 536060
+# case=attest-erc20-compact run=3
+RESULT action=attest-erc20-compact step=0 label=attest:Attest mode=succinct po2=default exec_cycles=69237 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=69237 prove_paging_cycles=51848 prove_ms=4338 receipt_bytes=226810 journal_bytes=3671
+	Maximum resident set size (kbytes): 536072
+# case=claim run=1
+RESULT action=claim step=0 label=erc20_receiver:Claim mode=succinct po2=default exec_cycles=39012 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=39012 prove_paging_cycles=45389 prove_ms=1261 receipt_bytes=230668 journal_bytes=7529
+RESULT action=claim step=1 label=attest:Attest mode=succinct po2=default exec_cycles=70909 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=70909 prove_paging_cycles=52209 prove_ms=4004 receipt_bytes=227126 journal_bytes=3987
+RESULT action=claim step=2 label=erc20_receiver:AttestReply mode=succinct po2=default exec_cycles=30602 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=30602 prove_paging_cycles=48069 prove_ms=892 receipt_bytes=224349 journal_bytes=1210
+RESULT action=claim step=3 label=erc20_receiver:Nullify mode=succinct po2=default exec_cycles=15322 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15322 prove_paging_cycles=33765 prove_ms=727 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 512988
+# case=claim run=2
+RESULT action=claim step=0 label=erc20_receiver:Claim mode=succinct po2=default exec_cycles=39012 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=39012 prove_paging_cycles=45389 prove_ms=1279 receipt_bytes=230668 journal_bytes=7529
+RESULT action=claim step=1 label=attest:Attest mode=succinct po2=default exec_cycles=70909 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=70909 prove_paging_cycles=52209 prove_ms=4060 receipt_bytes=227126 journal_bytes=3987
+RESULT action=claim step=2 label=erc20_receiver:AttestReply mode=succinct po2=default exec_cycles=30602 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=30602 prove_paging_cycles=48069 prove_ms=962 receipt_bytes=224349 journal_bytes=1210
+RESULT action=claim step=3 label=erc20_receiver:Nullify mode=succinct po2=default exec_cycles=15322 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15322 prove_paging_cycles=33765 prove_ms=688 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 513108
+# case=claim run=3
+RESULT action=claim step=0 label=erc20_receiver:Claim mode=succinct po2=default exec_cycles=39012 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=39012 prove_paging_cycles=45389 prove_ms=1276 receipt_bytes=230668 journal_bytes=7529
+RESULT action=claim step=1 label=attest:Attest mode=succinct po2=default exec_cycles=70909 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=70909 prove_paging_cycles=52209 prove_ms=3991 receipt_bytes=227126 journal_bytes=3987
+RESULT action=claim step=2 label=erc20_receiver:AttestReply mode=succinct po2=default exec_cycles=30602 exec_segments=1 prove_segments=1 prove_total_cycles=131072 prove_user_cycles=30602 prove_paging_cycles=48069 prove_ms=933 receipt_bytes=224349 journal_bytes=1210
+RESULT action=claim step=3 label=erc20_receiver:Nullify mode=succinct po2=default exec_cycles=15322 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15322 prove_paging_cycles=33765 prove_ms=710 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 513340
+# case=claim-inline run=1
+RESULT action=claim-inline step=0 label=erc20_inline_receiver:ClaimInline mode=succinct po2=default exec_cycles=90795 exec_segments=1 prove_segments=1 prove_total_cycles=262144 prove_user_cycles=90795 prove_paging_cycles=53533 prove_ms=4575 receipt_bytes=228083 journal_bytes=4944
+RESULT action=claim-inline step=1 label=attest:CheckHeader mode=succinct po2=default exec_cycles=14964 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=14964 prove_paging_cycles=35778 prove_ms=778 receipt_bytes=223555 journal_bytes=416
+RESULT action=claim-inline step=2 label=erc20_inline_receiver:Nullify mode=succinct po2=default exec_cycles=15096 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15096 prove_paging_cycles=33856 prove_ms=702 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 538840
+# case=claim-inline run=2
+RESULT action=claim-inline step=0 label=erc20_inline_receiver:ClaimInline mode=succinct po2=default exec_cycles=90795 exec_segments=1 prove_segments=1 prove_total_cycles=262144 prove_user_cycles=90795 prove_paging_cycles=53533 prove_ms=4485 receipt_bytes=228083 journal_bytes=4944
+RESULT action=claim-inline step=1 label=attest:CheckHeader mode=succinct po2=default exec_cycles=14964 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=14964 prove_paging_cycles=35778 prove_ms=771 receipt_bytes=223555 journal_bytes=416
+RESULT action=claim-inline step=2 label=erc20_inline_receiver:Nullify mode=succinct po2=default exec_cycles=15096 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15096 prove_paging_cycles=33856 prove_ms=688 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 538592
+# case=claim-inline run=3
+RESULT action=claim-inline step=0 label=erc20_inline_receiver:ClaimInline mode=succinct po2=default exec_cycles=90795 exec_segments=1 prove_segments=1 prove_total_cycles=262144 prove_user_cycles=90795 prove_paging_cycles=53533 prove_ms=4580 receipt_bytes=228083 journal_bytes=4944
+RESULT action=claim-inline step=1 label=attest:CheckHeader mode=succinct po2=default exec_cycles=14964 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=14964 prove_paging_cycles=35778 prove_ms=791 receipt_bytes=223555 journal_bytes=416
+RESULT action=claim-inline step=2 label=erc20_inline_receiver:Nullify mode=succinct po2=default exec_cycles=15096 exec_segments=1 prove_segments=1 prove_total_cycles=65536 prove_user_cycles=15096 prove_paging_cycles=33856 prove_ms=709 receipt_bytes=223504 journal_bytes=365
+	Maximum resident set size (kbytes): 538480
+# done

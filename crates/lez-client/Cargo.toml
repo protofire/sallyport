@@ -1,0 +1,33 @@
+[package]
+name = "lez-client"
+version = "0.0.0"
+edition.workspace = true
+description = "LEZ v0.4 client for the RFP-021 attest program: read an instance, submit Update (or UpdateBegin + UpdateVerify above K=170). Shared by the relayer and eth_attest_module (build with rustc >= 1.98)."
+
+[features]
+default = ["wallet"]
+# Signed submission (UpdateBegin + UpdateVerify) on lee_core alone: public-tx encoding, BIP-340 signing,
+# plain JSON-RPC send + inclusion poll. No LEZ node/wallet natives, so it builds in the Logos module builder.
+submit = ["attest-program/witness", "dep:k256", "dep:sha2", "dep:base64", "dep:rand", "dep:tracing"]
+# `LezClient::new`: take the payer key and sequencer URL from the LEZ wallet (relayer). Pulls the LEZ
+# wallet stack (rocksdb, rapidsnark, circuits) — never enabled by eth_attest_module.
+wallet = ["submit", "dep:wallet"]
+
+[dependencies]
+lc-core = { path = "../lc-core" }
+attest-program = { path = "../attest-program" }
+anyhow = "1"
+borsh = "1"
+serde_json = "1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "blocking"] }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+k256 = { version = "0.13", features = ["schnorr"], optional = true }
+sha2 = { version = "0.10", optional = true }
+base64 = { version = "0.22", optional = true }
+rand = { version = "0.8", optional = true }
+tracing = { version = "0.1", optional = true }
+wallet = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21", optional = true }
+
+[dev-dependencies]
+# Encoding check: our hand-built public tx must decode and verify as LEZ's own `lee::PublicTransaction`.
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }

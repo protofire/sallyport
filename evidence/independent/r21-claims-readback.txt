@@ -1,0 +1,33 @@
+r21 verification, read-only, 2026-11-12. NO RPC responses: sequencer restart failed.
+1) Restart: sequencer_service start b22sep/seqhome --rpc-listen-address 127.0.0.1:3073 ->
+   thread 'main' panicked at lez/programs/program_loader/core/src/lib.rs:78:13: header target already deployed
+   (exit at startup; same panic is in the original sequencer.log lines 2 and 6). Root cause: program-e2e 'deploy' re-sent the
+   attest program-loader deploy to the already-deployed attest account; replay of that block on startup panics. The sequencer
+   cannot be restarted from this seqhome without changing sequencer source/state. (My earlier note that the attest redeploy was
+   harmless/idempotent was wrong.) Nothing listened on :3073 afterwards; :3060/:3063 untouched.
+2) Fallback: copied seqhome/rocksdb to /tmp/seqcopy (copy, read-only open with rocksdict), scanned CF Block (1664 blocks) for
+   32-byte account ids. Tx hashes are not stored raw (the 4 hashes and known-good ba7eb8b9 give 0 hits), so hash->block lookup is impossible.
+   Blocks containing each account id (base58 decoded):
+eth_nullifier 4 [1583, 1593, 1624, 1634]
+erc20_nullifier 2 [1604, 1614]
+priv_N_pda 1 [1616]
+priv_vault 2 [1603, 1616]
+eth_receiver 6 (1270, 1634)
+erc20_receiver 7 (1220, 1626)
+Interpretation (indirect, not hash-matched):
+  eth nullifier PDA Gap4Qzsz...: blocks 1583 (s8 claim), 1593 (s8 replay), 1624 (s9 claim = b722b656, reported REVERTED), 1634 (s9 replay)
+  erc20 nullifier 6obqMXgh...: 1604 (ba7eb8b9 ok), 1614 (replay)
+  private N PDA B1Ds5FP8...: only block 1616 (single write, empty->a4 per tool output); private vault XDPMays...: 1603 (InitPrivateVault) and 1616
+Applied-vs-reverted is not readable from block bytes here. The tool's own readback after b722b656 showed eth vault claims=1
+credited_total=1000000000000, which can only come from an earlier successful claim of that deposit: block 1583 is the only earlier one.
+
+UPDATE: the restart in (1) did come up (the panic was in a task, process stayed alive; my 120 s wait loop gave up early). getLastBlockId = 1670.
+Raw responses (getTransaction x5, getBlockRange 1573-1610, program-e2e gas, getAccount) are in r21-verify-rpc.txt.
+Chain results (gas/status from program-e2e gas, i.e. the sequencer's fee summary):
+  e1345e51 block 1573 applied (eth InitVault)       0f379125 block 1583 applied (eth Claim, 311,228 cycles)
+  c5835572 block 1593 REVERTED (eth replay)          b722b656 block 1624 REVERTED (s9 duplicate claim); a6abb14e block 1634 REVERTED (its replay)
+  ba7eb8b9 block 1604 applied; 7fd68090 block 1614 REVERTED (erc20 replay)
+  3de353d4 block 1616 applied (PrivateClaim, N PDA = 0xa4 spent); d6d0ae90 block 1616 REVERTED (same-nk claimant 2)
+State: eth_receiver nullifier PDA Gap4Qz... and erc20 nullifier PDA exist (actor state non-empty), private N PDA B1Ds5F... = [164] (0xa4).
+Eth vault line from r21-claim-eth.log (tool readback after the duplicate): claims=1 credited_total=1000000000000.
+Sequencer stopped afterwards; nothing sent; Sepolia not touched.

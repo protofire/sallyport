@@ -1,0 +1,26 @@
+[package]
+name = "program-tests"
+version = "0.1.0"
+edition.workspace = true
+description = "Executor-level tests (LEZ V03State) and e2e client for the RFP-021 programs"
+
+[dependencies]
+attest-program = { path = "../attest-program", features = ["witness"] }
+consumers = { path = "../consumers" }
+bridge = { path = "../bridge", features = ["host"] }
+bridge-core = { path = "../bridge-core" }
+program-methods = { path = "../program-methods" }
+lc-core = { path = "../lc-core" }
+inclusion = { path = "../inclusion", features = ["host"] }
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+borsh = { version = "1", features = ["derive"] }
+serde_json = "1"
+hex = "0.4"
+alloy-primitives = { version = "1", default-features = false } # keccak for synthetic headers
+
+[dev-dependencies]
+lez-client = { path = "../lez-client", default-features = false } # ONE_TX_MAX_NON_SIGNERS routing limit
+blst = "0.3.16"
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "client"] } # sha_syscall test executor
+sha2 = "0.10"

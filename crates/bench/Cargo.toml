@@ -1,0 +1,32 @@
+[package]
+name = "bench"
+version = "0.1.0"
+edition.workspace = true
+description = "RFP-021 real-proving benchmarks (Performance #2, #4, #8): per-action cycles / proof time / RSS / proof size"
+
+[features]
+# Apple-GPU prover (needs the Xcode Metal Toolchain). `--no-default-features` = CPU prover.
+default = ["metal"]
+metal = ["risc0-zkvm/metal"]
+# NVIDIA prover (Linux, needs CUDA toolkit): `--no-default-features --features cuda`.
+cuda = ["risc0-zkvm/cuda"]
+
+[dependencies]
+program-tests = { path = "../program-tests" }
+inclusion = { path = "../inclusion" }
+attest-program = { path = "../attest-program", features = ["witness"] }
+consumers = { path = "../consumers" }
+program-methods = { path = "../program-methods" }
+lc-core = { path = "../lc-core" }
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21", features = ["prove"] }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "prove", "client"] }
+borsh = "1"
+hex = "0.4"
+blst = "0.3.16"
+
+[build-dependencies]
+risc0-build = "=3.0.5"
+
+[package.metadata.risc0]
+methods = ["guest"]

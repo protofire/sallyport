@@ -1,0 +1,26 @@
+[package]
+name = "bench-guest"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[[bin]]
+name = "breakdown"
+path = "src/bin/breakdown.rs"
+
+[[bin]]
+name = "compose"
+path = "src/bin/compose.rs"
+
+[dependencies]
+attest-program = { path = "../../attest-program", features = ["guest"] }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"] }
+
+[patch.crates-io]
+blst = { git = "https://github.com/risc0/blst", tag = "v0.3.16-risczero.0" }
+sha2 = { git = "https://github.com/risc0/RustCrypto-hashes", tag = "sha2-v0.10.9-risczero.0" }
+
+[profile.release]
+opt-level = 3
+lto = true

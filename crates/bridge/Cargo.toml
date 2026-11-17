@@ -1,0 +1,20 @@
+[package]
+name = "bridge"
+version = "0.1.0"
+edition.workspace = true
+description = "RFP-022 LEZ bridge program: handler behind `guest`, tx builders behind `host`"
+
+[features]
+default = []
+guest = ["dep:risc0-zkvm", "attest-program/entry"]
+host = ["bridge-core/host"]
+
+[dependencies]
+bridge-core = { path = "../bridge-core", default-features = false }
+attest-program = { path = "../attest-program" }
+consumers = { path = "../consumers" }
+inclusion = { path = "../inclusion" }
+borsh = { version = "1", default-features = false, features = ["derive", "std"] }
+sha2 = { version = "0.10", default-features = false }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"], optional = true }

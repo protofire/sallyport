@@ -1,0 +1,22 @@
+[package]
+name = "consumers-guest"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[dependencies]
+consumers = { path = "../../consumers", features = ["guest"] }
+attest-program = { path = "../../attest-program", features = ["entry"] }
+inclusion = { path = "../../inclusion", features = ["risc0-keccak"] }
+lc-core = { path = "../../lc-core", default-features = false } # sha_selftest bin only
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"] }
+
+[patch.crates-io]
+sha2 = { git = "https://github.com/risc0/RustCrypto-hashes", tag = "sha2-v0.10.9-risczero.0" }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1

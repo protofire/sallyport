@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "name": "protofire-rfp021-modules",
+  "displayName": "Protofire — RFP-021 Ethereum attestation modules",
+  "description": "Logos core modules for RFP-021: light-client-verified Ethereum attestations (eth_attest_module).",
+  "homepage": "https://github.com/protofire/<catalog-repo>",
+  "indexUrl": "https://github.com/protofire/<catalog-repo>/releases/download/index/index.json",
+  "trustedSigners": []
+}

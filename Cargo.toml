@@ -1,0 +1,8 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+# bench needs a patched risc0-sys on macOS (crates/bench/build.sh); program-e2e needs rustc 1.98.1; bridge-prover (RFP-022) needs the patched risc0-sys for Mac proving
+default-members = ["crates/attest-program", "crates/bridge", "crates/bridge-cli", "crates/bridge-core", "crates/consumers", "crates/inclusion", "crates/lc-core", "crates/lez-client", "crates/program-methods", "crates/program-tests", "crates/relayer", "crates/vector-runner"]
+
+[workspace.package]
+edition = "2021"

@@ -1,0 +1,135 @@
+name: e2e
+
+# Manual only. Blocked until the Sepolia fixture checkpoint is refreshed (the fixture bootstrap is older than the 279-epoch weak-subjectivity period, so `Init` returns 1105).
+# Add `push`/`schedule` triggers once it passes.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RISC0_DEV_MODE: "1"
+  LEZ_REV: 1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21 # v0.4.0-rc1
+  PAYER: 6iArKUXxhUJqS7kCaPNhwMWt3ro71PDyBj7jwAyE2VQV # genesis key A (public dev key)
+  PAYER_KEY: 10a26a9aec7d34b82364eeae45c5294dbb0a764b000b94eeb9b58511dc487c4d
+  DEPLOY_KEY: "2121212121212121212121212121212121212121212121212121212121212121" # consumers::ATTEST_DEPLOY_KEY (dev)
+  FUNDING_PUBKEY: 2e03b2eff5a45478e7e79668d2a146cf2c5c7925bce927f2b1c67f2ab4fc0d26
+
+jobs:
+  fixture-flow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends pkg-config libssl-dev libpcsclite-dev clang cmake
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.98.1" # LEZ rust-toolchain.toml and program-e2e
+
+      - name: Install risc0 toolchain (rzup)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # rzup reads GITHUB_TOKEN to avoid the unauthenticated api.github.com rate limit
+        run: |
+          curl -L https://risczero.com/install | bash
+          echo "$HOME/.risc0/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.risc0/bin:$PATH"
+          rzup install rust 1.97.0
+          rzup install cpp 2024.1.5
+          rzup install cargo-risczero 3.0.5
+          rzup install r0vm 3.0.5
+          ar_bin=$(find "$HOME/.risc0/toolchains" -name 'riscv32-unknown-elf-ar' -type f | head -n1 || true)
+          if [ -n "$ar_bin" ]; then echo "AR_riscv32im_risc0_zkvm_elf=$ar_bin" >> "$GITHUB_ENV"; fi
+
+      # Binary cache keyed on the pinned rev: a hit skips the ~8 min (M2 Max; slower on a runner) cold build.
+      - name: Cache LEZ sequencer + wallet binaries
+        id: lezbin
+        uses: actions/cache@v4
+        with:
+          path: lez-bin
+          key: lez-bin-${{ runner.os }}-${{ env.LEZ_REV }}
+
+      - name: Cache cargo registry and git
+        if: steps.lezbin.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            lez-src/target
+          key: lez-build-${{ runner.os }}-${{ env.LEZ_REV }}
+          restore-keys: lez-build-${{ runner.os }}-
+
+      - name: Build LEZ sequencer (standalone) and wallet
+        if: steps.lezbin.outputs.cache-hit != 'true'
+        run: |
+          git init lez-src
+          git -C lez-src fetch --depth 1 https://github.com/logos-blockchain/logos-execution-zone "$LEZ_REV"
+          git -C lez-src checkout --detach FETCH_HEAD
+          cd lez-src
+          cargo build --release --features standalone -p sequencer_service
+          cargo build --release -p wallet
+          mkdir -p ../lez-bin
+          cp target/release/sequencer_service target/release/wallet ../lez-bin/
+          cp lez/sequencer/service/networks/local.json lez/wallet/configs/debug/wallet_config.json ../lez-bin/
+
+      - name: Start standalone sequencer
+        run: |
+          B=$PWD/lez-bin; R=$RUNNER_TEMP/e2e; mkdir -p "$R"
+          "$B/sequencer_service" setup "$R/seqhome" --config "$B/local.json" --funding-public-key "$FUNDING_PUBKEY" --create-channel
+          nohup "$B/sequencer_service" start "$R/seqhome" > "$R/sequencer.log" 2>&1 &
+          mkdir -p "$R/wallet"; cp "$B/wallet_config.json" "$R/wallet/"
+          {
+            echo "E2E_DIR=$R"
+            echo "LEE_WALLET_HOME_DIR=$R/wallet"
+            echo "LEE_WALLET_PASSWORD="
+            echo "SUPPRESS_VERBOSE_PRINTS=1"
+          } >> "$GITHUB_ENV"
+
+      - name: Wallet health and key import
+        run: |
+          B=$PWD/lez-bin
+          for _ in $(seq 1 30); do "$B/wallet" check-health && break; sleep 5; done
+          "$B/wallet" check-health
+          "$B/wallet" account import public --private-key "$PAYER_KEY"
+          "$B/wallet" account import public --private-key "$DEPLOY_KEY"
+
+      - name: Build program-e2e
+        run: cargo build --release -p program-e2e
+
+      # Deploys attest + erc20_receiver, Init, atomic Update, Attest, InitVault, Claim, replay (~10 blocks of 15 s plus deploys).
+      - name: Run fixture flow
+        run: |
+          set -o pipefail
+          ./target/release/program-e2e "$PAYER" 2>&1 | tee "$E2E_DIR/e2e.out"
+
+      - name: Assert every step ok and only the replay reverted
+        run: |
+          out="$E2E_DIR/e2e.out"
+          for step in Init Update 'Attest(WETH slot0)' InitVault 'Claim(erc20)'; do
+            grep -F "| $step |" "$out" | grep -q '| ok |' || { echo "step failed: $step"; exit 1; }
+          done
+          grep -F '| Claim replay |' "$out" | grep -q '| reverted |' || { echo "replay did not revert"; exit 1; }
+          grep -q 'vault claims=1' "$out" || { echo "vault state not credited once"; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-logs
+          path: ${{ env.E2E_DIR }}/*.out
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: sequencer-log
+          path: ${{ env.E2E_DIR }}/sequencer.log
+          if-no-files-found: ignore

@@ -1,0 +1,12 @@
+[package]
+name = "vector-runner"
+version = "0.1.0"
+edition.workspace = true
+publish = false
+description = "Test-only: runs fixtures/adversarial vectors against lc-core + inclusion"
+
+[dev-dependencies]
+lc-core = { path = "../lc-core", features = ["json", "host-bls"] }
+inclusion = { path = "../inclusion" }
+serde_json = "1"
+hex = "0.4"

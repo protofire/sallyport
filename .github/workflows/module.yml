@@ -1,0 +1,51 @@
+name: module
+
+on:
+  push:
+    branches: [main]
+    paths: ["modules/eth_attest_module/**", "crates/lc-core/**", "crates/inclusion/**", "crates/lez-client/**", "crates/attest-program/**", ".github/workflows/module.yml"]
+  pull_request:
+    paths: ["modules/eth_attest_module/**", "crates/lc-core/**", "crates/inclusion/**", "crates/lez-client/**", "crates/attest-program/**", ".github/workflows/module.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: module-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  nix-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      # Same nix.conf as modules/nix-docker.sh (Logos public cache). sandbox=false mirrors the proven docker path.
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+            sandbox = false
+            substituters = https://cache.nixos.org https://cache.nix.logos.co/public
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= public:l4HrXgL4nw246+LBh2SOJyhz64BoGegOYLheT/iIAPU=
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+
+      # git+file flake: the module reads ../../crates, so the whole repo must be the flake source.
+      - name: nix build lib and lgx
+        run: |
+          FLAKE="git+file://$PWD?dir=modules/eth_attest_module"
+          nix build -L "$FLAKE#lib" --out-link "$RUNNER_TEMP/lib"
+          nix build -L "$FLAKE#lgx" --out-link "$RUNNER_TEMP/lgx"
+          mkdir -p modules/out
+          cp -L "$RUNNER_TEMP"/lgx/*.lgx modules/out/
+          cp -rL "$RUNNER_TEMP/lib" modules/out/lib
+          find modules/out -type f | sort | xargs ls -la
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eth_attest_module
+          path: modules/out
+          if-no-files-found: error

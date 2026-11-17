@@ -1,0 +1,8 @@
+; Catalog submodules (shape from logos-modules-release-base). Not active in this monorepo: this
+; directory becomes the ROOT of a separate catalog repo. There, run once:
+;   git submodule add https://github.com/protofire/sallyport submodules/sallyport
+; which writes the entry below for real.
+;
+; [submodule "submodules/sallyport"]
+; 	path = submodules/sallyport
+; 	url = https://github.com/protofire/sallyport
