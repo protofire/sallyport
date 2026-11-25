@@ -43,18 +43,19 @@ The built design is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Quickstart
 
-Prerequisites (Ubuntu 24.04 packages: `build-essential curl pkg-config libssl-dev python3 clang cmake jq libpcsclite-dev rsync docker-buildx`; `rsync` is needed by `b22 e2e --local`, `docker-buildx` by `scripts/image-ids.sh`, `libpcsclite-dev` by the LEZ wallet; the GPU bench also needs `protobuf-compiler` and the CUDA 12.8 toolkit): the Rust toolchain in `rust-toolchain.toml` (1.98.1), the RISC0 toolchain (`rzup install rust 1.97.0`, `cpp 2024.1.5`, `cargo-risczero 3.0.5`, `r0vm 3.0.5`) and, for RFP-022, Foundry 1.5.1 plus `git submodule update --init --recursive contracts/bridge/lib`, the Python packages `eth-abi`, `eth-account`, `eth-utils` and `rlp` for `contracts/bridge/script/deploy_sepolia.py` (`pip install eth-abi eth-account eth-utils rlp`), `rzup install risc0-groth16 0.1.0` for the Groth16 wrap (the `rzup` default 0.2.0 is rejected by risc0 3.0.5). On macOS only (not needed on Linux), the cc crate needs the RISC0 cross archiver:
+Prerequisites (Ubuntu 24.04 packages: `build-essential curl pkg-config libssl-dev python3 clang cmake jq libpcsclite-dev rsync docker-buildx`; `rsync` is needed by `b22 e2e --local`, `docker-buildx` by `scripts/image-ids.sh`, `libpcsclite-dev` by the LEZ wallet; the GPU bench also needs `protobuf-compiler` and the CUDA 12.8 toolkit): the Rust toolchain in `rust-toolchain.toml` (1.98.1), the RISC0 toolchain (`rzup install rust 1.97.0`, `cpp 2024.1.5`, `cargo-risczero 3.1.0`, `r0vm 3.1.0`) and, for RFP-022, Foundry 1.5.1 plus `git submodule update --init --recursive contracts/bridge/lib`, the Python packages `eth-abi`, `eth-account`, `eth-utils` and `rlp` for `contracts/bridge/script/deploy_sepolia.py` (`pip install eth-abi eth-account eth-utils rlp`), Docker for the Groth16 wrap (risc0-groth16 3.0.6 runs `risczero/risc0-groth16-prover:v2026-10-20.1`, linux/amd64; no rzup component). On macOS only (not needed on Linux), the cc crate needs the RISC0 cross archiver:
 
 ```
 export AR_riscv32im_risc0_zkvm_elf=$HOME/.risc0/toolchains/v2024.1.5-cpp-aarch64-apple-darwin/riscv32im-osx-arm64/bin/riscv32-unknown-elf-ar
 ```
 
-LEZ (needed for the live flows and `b22 e2e --local`; the cargo tests do not need it): a LEZ v0.4.0-rc1 checkout at `vendor/lez` (ignored by git), with the standalone sequencer and the wallet built.
+LEZ (needed for the live flows and `b22 e2e --local`; the cargo tests do not need it): a LEZ checkout at `vendor/lez` (commit `6aaabe5`: v0.4.0-rc3 plus the risc0 3.1.0 bump) (ignored by git), with the standalone sequencer and the wallet built.
 
 ```
 git init vendor/lez
-git -C vendor/lez fetch --depth 1 https://github.com/logos-blockchain/logos-execution-zone 1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21   # v0.4.0-rc1 (1806e87)
+git -C vendor/lez fetch --depth 1 https://github.com/logos-blockchain/logos-execution-zone 6aaabe526b5cd4558d8f0506a97dd1b9f456933c   # main 2026-11-13, risc0 3.1.0 (6aaabe5)
 git -C vendor/lez checkout --detach FETCH_HEAD
+curl -sL https://github.com/logos-blockchain/logos-execution-zone/commit/f55d961.patch | git -C vendor/lez apply   # upstream fix: a fresh standalone sequencer at 6aaabe5 exits with ChannelWithoutBlocks
 (cd vendor/lez && cargo build --release --features standalone -p sequencer_service && cargo build --release -p wallet)
 ```
 
@@ -80,7 +81,7 @@ cargo test -p bridge-core -p bridge                           # formats, golden 
 RISC0_DEV_MODE=1 cargo test -p program-tests --release --no-fail-fast --test bridge -- --nocapture   # bridge program on the LEZ executor (dev mode)
 (cd contracts/bridge && forge test -vv)                       # vault, root verifier
 cargo build --release -p bridge-cli                           # binary b22
-RISC0_DEV_MODE=1 B22_LEZ_VENDOR=<lez 1806e87 checkout> ./target/release/b22 e2e --local
+RISC0_DEV_MODE=1 B22_LEZ_VENDOR=<lez 6aaabe5 checkout> ./target/release/b22 e2e --local
 ```
 
 `b22 e2e --local` runs anvil, a devnet beacon and a fresh LEZ sequencer end to end with a mock seal. The Sepolia run and the `b22` environment variables are in [docs/OPERATOR-GUIDE.md](docs/OPERATOR-GUIDE.md), "RFP-022 client".
@@ -93,18 +94,18 @@ Every guest is built with risc0's reproducible Docker builder (`risczero/risc0-g
 scripts/image-ids.sh        # = RISC0_USE_DOCKER=1 cargo run -q --release --locked -p program-methods --example image_ids
 ```
 
-Without `RISC0_USE_DOCKER=1`, builds use the local rzup toolchain and the IDs depend on the host and checkout path (that is what the tests use). The final runs in `evidence/` use the Docker-built ELFs. The output is the same on an aarch64 Mac and on an x86_64 Linux machine; the eight ELF files are byte-identical.
+Without `RISC0_USE_DOCKER=1`, builds use the local rzup toolchain and the IDs depend on the host and checkout path (that is what the tests use). The final runs in `evidence/` use the Docker-built ELFs. The IDs below are for risc0 3.1.0 and LEZ `6aaabe5`, built on an aarch64 Mac on 2026-11-25. The Mac/x86_64 Linux byte-identity check was done for the earlier risc0 3.0.5 IDs and has not been repeated for these. The earlier IDs (attest `dbdf349c…`, bridge `030e554b…`, burn_member `b75588bc…`) apply to the runs in `evidence/` dated before 2026-11-25.
 
 | guest | ImageID |
 |---|---|
-| attest | `dbdf349c065395c8fba0857cddc096ba4e5a7a458adc2d117f101fc3cea2fd80` |
-| erc20_receiver | `f132dd78b21cd013671482e77102ffe0dc6ee98337bdb71cb2ee52c025447a25` |
-| eth_receiver | `309ad796177939a8a857b9b4de81ec96068897adef7d82cb0d75371ee28d4f08` |
-| erc20_inline_receiver | `1b62b2f919fb9d79a2e6054632fa567ba54a1ce0df307caa7460d75247218655` |
-| bridge (RFP-022 LEZ program) | `030e554bab245def77adb144a04ada0bd57a9593109d74b034f6fcbded18878c` |
-| burn_member (RFP-022 release proof, vault `MEMBERSHIP_IMAGE_ID`) | `b75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821` |
-| spec_selftest (test only) | `ea8a7d689a298a109689675cd2ca8a2a1e4e5bdc0ccb2adffb6a3705211a520a` |
-| sha_selftest (test only) | `37b9e1663c11ac238795e4e4c14f21f3488d6012748a74c59559674fc9d40b70` |
+| attest | `d5bc65bcbe3f9b2a7e5c12fc5c8bd38148a3f5bb8991e9f731377a1cf05c9f06` |
+| erc20_receiver | `7ac5f1bdd2e7688d2f8057ba05ab447652ed4df630b93847ded14cd6b516a669` |
+| eth_receiver | `b31636b43276d983a2ade1de806ddf07be4c9b0e255085451c62b63d73e2b595` |
+| erc20_inline_receiver | `c761e571aee0a897d966417dace61da1585c988e1543fadbd5cdbafc65ebd810` |
+| bridge (RFP-022 LEZ program) | `fda709a30ef31641020ed73d49ab6a66093a20936d6c6b538fa9063691b4149e` |
+| burn_member (RFP-022 release proof, vault `MEMBERSHIP_IMAGE_ID`) | `905d2b8ca788d62120ce230e219446f772188d7f3e1023f649a391236a1aa449` |
+| spec_selftest (test only) | `36ea178cd30bbc3b2889ec66261e146b7f1656b9eeed1efd01fd547a96e2c952` |
+| sha_selftest (test only) | `071bba8db84ed2a9a19744df07e525b10e0f18be676a059d359427f9d4af7b6f` |
 
 ## Keys
 
@@ -117,7 +118,7 @@ No key is stored in the repository or read from an OS secret store. Commands tha
 
 `--local` runs use well-known dev keys (anvil accounts, LEZ standalone genesis keys), which are public test constants.
 
-The `b22` client expects a LEZ v0.4.0-rc1 checkout (`1806e87`) with `sequencer_service` and `wallet` built at `vendor/lez`, or at the path in `B22_LEZ_VENDOR`.
+The `b22` client expects a LEZ checkout at `6aaabe5` with `sequencer_service` and `wallet` built at `vendor/lez`, or at the path in `B22_LEZ_VENDOR`.
 
 ## Documents
 

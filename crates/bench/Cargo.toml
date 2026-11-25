@@ -18,15 +18,15 @@ attest-program = { path = "../attest-program", features = ["witness"] }
 consumers = { path = "../consumers" }
 program-methods = { path = "../program-methods" }
 lc-core = { path = "../lc-core" }
-lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21", features = ["prove"] }
-lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
-risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "prove", "client"] }
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c", features = ["prove"] }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
+risc0-zkvm = { version = "=3.1.0", default-features = false, features = ["std", "prove", "client"] }
 borsh = "1"
 hex = "0.4"
 blst = "0.3.16"
 
 [build-dependencies]
-risc0-build = "=3.0.5"
+risc0-build = "=3.0.7"
 
 [package.metadata.risc0]
 methods = ["guest"]

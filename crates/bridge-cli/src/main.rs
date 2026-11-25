@@ -48,7 +48,7 @@ use lee::{AccountId, Actor};
 use serde::{Deserialize, Serialize};
 use wallet::AccountIdentity;
 
-/// LEZ checkout (1806e87) with `sequencer_service` and `wallet` built; `B22_LEZ_VENDOR` overrides (default `vendor/lez`).
+/// LEZ checkout (6aaabe5) with `sequencer_service` and `wallet` built; `B22_LEZ_VENDOR` overrides (default `vendor/lez`).
 const VENDOR: &str = "vendor/lez";
 const CONTRACTS: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../../contracts/bridge");
 /// `--local` root signers: LOCAL DEV KEYS (public constants, both on this machine). Sepolia uses
@@ -1487,6 +1487,20 @@ impl Ctx {
     }
 }
 
+/// `cmd` on `host` over ssh, or in a local `sh` when `host` is `local` (signer 2 / prover on this
+/// machine; both root keys then sit on one host, which the run transcript states).
+fn on_host(host: &str, cmd: &str) -> Command {
+    if host == "local" {
+        let mut c = Command::new("sh");
+        c.args(["-c", cmd]);
+        c
+    } else {
+        let mut c = Command::new("ssh");
+        c.args([host, cmd]);
+        c
+    }
+}
+
 /// Groth16 wrap on another machine (the prover host): ships the request over ssh, runs `bridge-prover`
 /// there, returns `selector ‖ seal`. The request holds `rk` for one burn only (it is the prover's
 /// private input); it is written 0600 and deleted on both sides.
@@ -1516,23 +1530,25 @@ fn remote_groth16(
     }
     let remote_dir = std::env::var("B22_SIGNER2_REPO").unwrap_or_else(|_| "~/b22-prover".into());
     // a private (0700) directory on the prover host, not a predictable /tmp name
-    let mk = Command::new("ssh")
-        .args([host, "umask 077 && mktemp -d \"$HOME/b22-rel.XXXXXX\""])
-        .output()?;
+    let mk = on_host(host, "umask 077 && mktemp -d \"$HOME/b22-rel.XXXXXX\"").output()?;
     ensure!(mk.status.success(), "mktemp on {host} failed");
     let rdir = String::from_utf8(mk.stdout)?.trim().to_string();
     ensure!(rdir.contains("/b22-rel."), "unexpected remote dir {rdir}");
-    let st = Command::new("scp")
-        .args([
-            "-q",
-            local.to_str().unwrap(),
-            &format!("{host}:{rdir}/req.json"),
-        ])
-        .status()?;
+    let ok = if host == "local" {
+        std::fs::copy(&local, format!("{rdir}/req.json")).is_ok()
+    } else {
+        Command::new("scp")
+            .args([
+                "-q",
+                local.to_str().unwrap(),
+                &format!("{host}:{rdir}/req.json"),
+            ])
+            .status()?
+            .success()
+    };
     std::fs::remove_file(&local)?;
-    ensure!(st.success(), "scp to {host} failed");
-    let out = Command::new("ssh")
-        .args([host, &format!("cd {remote_dir} && env -u RISC0_DEV_MODE RISC0_WORK_DIR=$HOME/r0work ./target/release/bridge-prover prove --request {rdir}/req.json --out {rdir}/seal.json >&2; rc=$?; cat {rdir}/seal.json; rm -rf {rdir}; exit $rc")])
+    ensure!(ok, "copy to {host} failed");
+    let out = on_host(host, &format!("cd {remote_dir} && mkdir -p $HOME/r0work && env -u RISC0_DEV_MODE RISC0_WORK_DIR=$HOME/r0work ./target/release/bridge-prover prove --request {rdir}/req.json --out {rdir}/seal.json >&2; rc=$?; cat {rdir}/seal.json; rm -rf {rdir}; exit $rc"))
         .output()?;
     ensure!(
         out.status.success(),
@@ -2374,9 +2390,14 @@ async fn sign_both(c: &mut Ctx, tok: Tok, d: u128) -> Result<(RootAttestation, V
 fn remote_sign(tok: Tok, d: u128) -> Result<(RootAttestation, [u8; 65])> {
     let host = std::env::var("B22_SIGNER2_HOST").unwrap_or_else(|_| "signer2".into());
     let dir = std::env::var("B22_SIGNER2_CLIENT").unwrap_or_else(|_| "~/b22-client".into());
-    let out = Command::new("ssh")
-        .args([&host, &format!("cd {dir} && target/release/b22 sign-root {} {d} --sepolia --key-file {PC_SIGNER_KEY}", hex::encode(tok))])
-        .output()?;
+    let out = on_host(
+        &host,
+        &format!(
+            "cd {dir} && target/release/b22 sign-root {} {d} --sepolia --key-file {PC_SIGNER_KEY}",
+            hex::encode(tok)
+        ),
+    )
+    .output()?;
     ensure!(
         out.status.success(),
         "signer host 2 failed: {}",
@@ -2482,6 +2503,8 @@ async fn e2e_run(home: &Path, local: bool, groth16_host: Option<&str>) -> Result
         "   root signers: {}",
         if local {
             "two LOCAL DEV KEYS on this machine (local only)"
+        } else if std::env::var("B22_SIGNER2_HOST").as_deref() == Ok("local") {
+            "signer 1 from the environment, signer 2 from its key file, BOTH ON THIS MACHINE; INTERIM CUSTODIAL"
         } else {
             "signer 1 from the environment, signer 2 on signer host 2 (sign-root over ssh); INTERIM CUSTODIAL"
         }

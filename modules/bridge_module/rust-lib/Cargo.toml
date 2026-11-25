@@ -22,7 +22,7 @@ bridge-core = { path = "crates/bridge-core" }
 serde_json = "1"
 hex = "0.4"
 borsh = "1"
-lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
 logos-rust-sdk = { path = "../logos-rust-sdk-src", optional = true }
 
 [features]

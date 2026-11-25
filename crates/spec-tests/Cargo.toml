@@ -10,7 +10,7 @@ lc-core = { path = "../lc-core", features = ["json", "host-bls"] }
 attest-program = { path = "../attest-program", features = ["witness"] }
 program-tests = { path = "../program-tests" }
 program-methods = { path = "../program-methods" }
-risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "client"] }
+risc0-zkvm = { version = "=3.1.0", default-features = false, features = ["std", "client"] }
 blst = "0.3.16"
 borsh = { version = "1", features = ["derive"] }
 sha2 = "0.10"

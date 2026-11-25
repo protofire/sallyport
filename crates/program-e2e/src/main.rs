@@ -88,7 +88,7 @@ impl E2e {
                 seed: PdaSeed::new(*seed),
             })
             .collect();
-        m.execution.fee = Some(lee::FeeDeclaration::new(
+        m.fee = Some(lee::FeeDeclaration::new(
             self.payer,
             gas,
             0,
@@ -526,11 +526,7 @@ async fn live(args: &[String]) {
                     public_actor_states: states,
                     admitted_accounts: None,
                 };
-                let budget = tx
-                    .message()
-                    .execution
-                    .fee
-                    .map_or(10_000_000, |f| f.gas_limit);
+                let budget = tx.message().fee.map_or(10_000_000, |f| f.gas_limit);
                 let (cycles, r) = lee::simulate_public_transaction(&tx, &sim, &programs, budget);
                 let exit = match &r {
                     Err(lee::error::LeeError::ProgramExitedWithCode { code, .. }) => {
@@ -555,7 +551,7 @@ async fn live(args: &[String]) {
                     .unwrap()
                     .expect("block");
                 let txs = &block.body.transactions;
-                let exempt = |t: &common::transaction::LeeTransaction| matches!(t, common::transaction::LeeTransaction::Public(p) if p.message().execution.fee.is_none());
+                let exempt = |t: &common::transaction::LeeTransaction| matches!(t, common::transaction::LeeTransaction::Public(p) if p.message().fee.is_none());
                 // borsh Distribute { summary: {u64, u64, u128, u128}, payout: u128, producer: [u8; 32] } = 97 bytes
                 let m = txs
                     .iter()
@@ -574,7 +570,6 @@ async fn live(args: &[String]) {
                         let limit = match t {
                             common::transaction::LeeTransaction::Public(p) => p
                                 .message()
-                                .execution
                                 .fee
                                 .as_ref()
                                 .map(|f| format!(" gas_limit={}", f.gas_limit)),
@@ -920,8 +915,7 @@ async fn private_claim(
     println!("  private_actions: {}  async_messages: {}  recovery_bindings: {}  nonces: {}  admission_evidence: {}", m.execution.private_actions.len(), m.execution.async_messages.len(), m.execution.recovery_bindings.len(), m.nonces.len(), m.admission_evidence.len());
     println!(
         "  fee: {:?}",
-        m.execution
-            .fee
+        m.fee
             .as_ref()
             .map(|_| "proven fee transfer (refund to blinded alias)")
     );

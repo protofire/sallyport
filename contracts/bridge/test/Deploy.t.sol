@@ -34,7 +34,7 @@ contract DeployScriptTest is Test {
         assertEq(vault.CONFIG_ID(), keccak256("cfg"));
         assertEq(ver.CONFIG_ID(), keccak256("cfg"));
         assertEq(address(vault.ROOT_VERIFIER()), address(ver));
-        assertEq(address(vault.GROTH16()), 0x2a098988600d87650Fb061FfAff08B97149Fa84D);
+        assertEq(address(vault.GROTH16()), 0x8c915b5071206C6E328BC18529586c513408aB3b);
         assertEq(vault.MAX_FEE_BPS(), 500);
         assertEq(vault.owner(), deployer);
         assertEq(vault.FREEZER(), address(0xf));

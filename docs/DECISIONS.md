@@ -140,7 +140,7 @@ Live run: [../evidence/rfp022-sepolia.md](../evidence/rfp022-sepolia.md).
 - B22-2: Inbound is the RFP-021 private claim (`verify_ref`, `CheckRoot`, global `pnf(nk)`); `statement_id` uniqueness is not used on the private path.
 - B22-3: Own burn accumulator per (cfg, token, denomination): the RFP-021 `Frontier` (sha256, depth 20) with write-once leaf PDAs; capacity `2^20 − 1` leaves, then 1307.
 - B22-4: Ethereum accepts burn roots through `EcdsaRootVerifier`, 2-of-2, once per root, permanently revocable, behind `IBurnRootVerifier`. Interim, custodial, not trustless (`TRUSTLESS() == false`).
-- B22-5: Release is a user-side `burn_member` RISC0 proof, Groth16-wrapped, verified by the pinned v3.0.0 verifier.
+- B22-5: Release is a user-side `burn_member` RISC0 proof, Groth16-wrapped, verified by the pinned v3.1.0 verifier (v3.0.0 until 2026-11-25; moved for GHSA-g6qg-9j8p-7j87).
 - B22-6: One `BridgeVault` per config, `SafeERC20`, exact-amount pull, fixed denominations, ETH as `address(0)`, verification parameters immutable.
 - B22-7: Minimal admin/freezer role on LEZ; `Ownable2Step` plus `freezer` on Ethereum.
 - B22-8: All secrets derive from one seed; recovery is a gap-limit scan.

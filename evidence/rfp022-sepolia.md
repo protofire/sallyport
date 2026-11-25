@@ -1,5 +1,7 @@
 # RFP-022 private wrapped ERC-20/ETH bridge: Sepolia end-to-end run (2026-11-10)
 
+> Superseded on 2026-11-25 by [rfp022-sepolia-2026-11-25.md](rfp022-sepolia-2026-11-25.md): this run used risc0 3.0.5 and `RiscZeroGroth16Verifier` v3.0.0, which GHSA-g6qg-9j8p-7j87 affects. The record below is kept as it was.
+
 Applies to guest ImageIDs bridge `030e554bab245def77adb144a04ada0bd57a9593109d74b034f6fcbded18878c` (LEZ program) and burn_member `0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821` (`MEMBERSHIP_IMAGE_ID`); LEZ v0.4.0-rc1 (1806e87). The attest guest of RFP-021 (`dbdf349c…2fd80`, see [rfp021-final-run.md](rfp021-final-run.md)) is unchanged.
 
 Local paths and host names are normalised in this file (`<repo>`, `prover-host`). Related: [../docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md), [../docs/BENCHMARKS.md](../docs/BENCHMARKS.md), [../docs/DECISIONS.md](../docs/DECISIONS.md), [../docs/TRUST-ASSUMPTIONS.md](../docs/TRUST-ASSUMPTIONS.md), [../proposal/COVERAGE.md](../proposal/COVERAGE.md), [README.md](README.md) (evidence index).

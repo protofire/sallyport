@@ -224,7 +224,7 @@ impl Lez {
                 seed: PdaSeed::new(*seed),
             })
             .collect();
-        m.execution.fee = Some(lee::FeeDeclaration::new(
+        m.fee = Some(lee::FeeDeclaration::new(
             signer,
             gas,
             0,

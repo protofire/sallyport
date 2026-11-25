@@ -2,7 +2,7 @@
 
 `BridgeVault` (escrow, one per config), `IBurnRootVerifier`, and `EcdsaRootVerifier`: interim, custodial, not trustless (2-of-2 secp256k1 root signers; `TRUSTLESS() == false`). Design: [../../docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md) (RFP-022 section); trust model: [../../docs/TRUST-ASSUMPTIONS.md](../../docs/TRUST-ASSUMPTIONS.md).
 
-Pins: OpenZeppelin v5.7.0, risc0-ethereum v3.0.1 and forge-std v1.11.0, all git submodules in `lib/` at the revisions recorded in `foundry.lock`; Foundry 1.5.1. `test/mocks/TetherToken.sol` is the verified mainnet USDT source (Sourcify full match), compiled with its mainnet compiler solc 0.4.18.
+Pins: OpenZeppelin v5.7.0, risc0-ethereum v3.1.0 and forge-std v1.11.0, all git submodules in `lib/` at the revisions recorded in `foundry.lock`; Foundry 1.5.1. `test/mocks/TetherToken.sol` is the verified mainnet USDT source (Sourcify full match), compiled with its mainnet compiler solc 0.4.18.
 
 ```sh
 git submodule update --init --recursive contracts/bridge/lib   # from the repository root

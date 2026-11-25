@@ -46,7 +46,7 @@ fn main() -> Result<()> {
     );
     let h = |b: &[u8]| format!("0x{}", hex::encode(b));
     let fixture = serde_json::json!({
-        "_note": "RFP-022 L3: real Groth16 seal of burn_member for the release_journal of fixtures/b22/vectors.json. Verify with RiscZeroGroth16Verifier v3.0.0 (Sepolia 0x2a098988600d87650Fb061FfAff08B97149Fa84D): verify(seal, imageId, journalDigest).",
+        "_note": "RFP-022 L3: real Groth16 seal of burn_member for the release_journal of fixtures/b22/vectors.json. Verify with RiscZeroGroth16Verifier v3.1.0 (Sepolia 0x8c915b5071206C6E328BC18529586c513408aB3b): verify(seal, imageId, journalDigest).",
         "imageId": h(&image_id()),
         "journal": h(&p.journal),
         "journalDigest": h(&j.digest()),

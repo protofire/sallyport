@@ -1,59 +1,57 @@
 {
   "chain_id": 11155111,
-  "deployed": "2026-11-10 (development commit 4b680f8 and the final 2026-11-10 run in evidence/rfp022-sepolia.md)",
-  "deployer": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
-  "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e",
+  "deployed": "2026-11-25 (risc0 3.1.0, LEZ 6aaabe5; run in evidence/rfp022-sepolia-2026-11-25.md)",
+  "deployer": "0x731441E3109939467945dF98BC3DF5798fa38049",
+  "config_id": "0x851cde9bf65c96a20cef9c5bd72cdff35aac25b8ad805bec95fb0ecefe9ba635",
   "BridgeVault": {
-    "address": "0x4A9695DBDAbed69F796dE39945A8EF7A35825472",
-    "nonce": 46,
-    "tx": "0xed2c7d65897a0789e12910dc2e04f2c7afcd806f3241ebb4d99ff7433827137b",
-    "block": 12102059,
-    "node_estimate": 16310416,
-    "gas_limit": 19572499,
-    "gas_used": 16180829,
+    "address": "0x4F5B414B196cf2b176aBF01D716B2735b20B5c6d",
+    "nonce": 28,
+    "tx": "0x8cbd8349fede9a0a4a0954d80a571e944912a39fdac184f92d86612ac418fe06",
+    "block": 12209664,
+    "node_estimate": 16310440,
+    "gas_limit": 19572528,
+    "gas_used": 16180853,
     "constructor": {
-      "admin": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
-      "freezer": "0x413c7f9F0BDC9f73B1d5405e2e23E0D6A2D05E97",
-      "root_verifier": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876",
-      "groth16": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
-      "membership_image_id": "0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821",
-      "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e",
+      "admin": "0x731441E3109939467945dF98BC3DF5798fa38049",
+      "freezer": "0x0ca34423C7dCCe28d39f3e6B1DB94a9036BeC6e1",
+      "root_verifier": "0xB4b9aB61859Be3D13A3e8AfcdcFB523ca68c3D29",
+      "groth16": "0x8c915b5071206C6E328BC18529586c513408aB3b",
+      "membership_image_id": "0x905d2b8ca788d62120ce230e219446f772188d7f3e1023f649a391236a1aa449",
+      "config_id": "0x851cde9bf65c96a20cef9c5bd72cdff35aac25b8ad805bec95fb0ecefe9ba635",
       "max_fee_bps": 500,
       "min_timelock": 21600
-    },
-    "ROOT_VERIFIER()": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876"
+    }
   },
   "EcdsaRootVerifier": {
-    "address": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876",
-    "nonce": 45,
-    "tx": "0xfc99a8eb2caaade05fd15fbde5f473e5372810492dc939963a26be7e5000368b",
-    "block": 12102058,
+    "address": "0xB4b9aB61859Be3D13A3e8AfcdcFB523ca68c3D29",
+    "nonce": 27,
+    "tx": "0x4c3002fc0219c45d417f80839c416e08c3e75d94bd4d773e32f76cec5a9374f2",
+    "block": 12209663,
     "node_estimate": 4065517,
     "gas_limit": 4878620,
     "gas_used": 4032347,
     "constructor": {
       "signers": [
-        "0x0Dd666e319d673813C440F835Bf9708cEE9D95D1",
-        "0x26497FE42fCfda16De4f6E225FA0340c430760c1"
+        "0x2D79A6917fBb9648198C9182B8A62cc73eaa165d",
+        "0x71835F0dD37D995BdcA9d0DE3449c104860E9C90"
       ],
       "threshold": 2,
-      "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e"
-    },
-    "signer_1": "0x26497fe42fcfda16de4f6e225fa0340c430760c1 (key from B22_ROOT_SIGNER_1_KEY)",
-    "signer_2": "0x0dd666e319d673813c440f835bf9708cee9d95d1 (signer host 2 only, b22 gen-signer)"
+      "config_id": "0x851cde9bf65c96a20cef9c5bd72cdff35aac25b8ad805bec95fb0ecefe9ba635"
+    }
   },
   "TetherToken_mock": {
-    "address": "0xBB2bb9aA927b3925dBf1AA92587aA448c8DB4f0e",
-    "nonce": 44,
-    "tx": "0x4006ab565e5295d7e176aeb37324effbab50f6de37522a3886b4e1278e1dc4d0",
-    "block": 12102057,
+    "address": "0x08C4139A98b941edc040c214cD0e33200DcdDeCE",
+    "nonce": 26,
+    "tx": "0xbc063acf35b61d88451b8760e8ae73a124a9d0dfceecdf35109215faac6ba75f",
+    "block": 12209662,
     "node_estimate": 9772199,
     "gas_limit": 11726638,
     "gas_used": 9694094
   },
-  "groth16_verifier": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
-  "membership_image_id": "0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821",
-  "freezer": "0x413c7f9F0BDC9f73B1d5405e2e23E0D6A2D05E97",
+  "groth16_verifier": "0x8c915b5071206C6E328BC18529586c513408aB3b",
+  "groth16_verifier_note": "risc0-ethereum v3.1.0 RiscZeroGroth16Verifier, selector 0xe71e6620 (v3.0.0, selector 0x73c457ba, is affected by GHSA-g6qg-9j8p-7j87 and emergency-stopped)",
+  "membership_image_id": "0x905d2b8ca788d62120ce230e219446f772188d7f3e1023f649a391236a1aa449",
+  "freezer": "0x0ca34423C7dCCe28d39f3e6B1DB94a9036BeC6e1",
   "min_timelock": 21600,
   "registration": {
     "ETH": {
@@ -74,26 +72,59 @@
     },
     "min_lez_depth": 10,
     "txs": [
-      "0x7823fc9d3f37a103ed021c5ba35c559b732852746a9d2be1e0b9da934f9f0ef1",
-      "0x0fdb7b8658965e1d9036729005a656d25211f4d964fccfbd84207f0d3f125aee",
-      "0xc9745b8f95d9f483ec188276222d7e753465f952e6195d2e74a066c13bbd2737",
-      "0xc67ee0c327601af72df03eb5ec1b069c7ccd3a96c3d364f96ce967c88f0ca017",
-      "0x985a86e3b6c530ca98f91e160d0aebdddec18b2e8e487800f152f1d6f5652089"
+      "0xc53b438d3d414c42e66a4e84c301b82f53246ba1b09d58a23dca4f0b5c7ef64a",
+      "0xc832ea0dfcc82234b97d367202b49a37bfee8e51938379d8cbd08c9faac41cdc",
+      "0xdd4c13f48e0020f054ecdc296422b54ad9d64e269722f8ff1972e0f9ce349be3",
+      "0xa70e5107190ad016af9e97591fb4a8a170e93fe8bcc459eef0ca3f870b84173c",
+      "0x27742b89110fb38fa3acd5899a02da0950352d60ce5e8c5df02b5326b1c28ba0"
     ]
   },
   "gas_note": "every gas limit = Sepolia node eth_estimateGas x1.2 (contracts/bridge/script/deploy_sepolia.py); a local revm fork estimated 2.30M for the vault creation, the Sepolia node 16.31M (used 16.18M)",
   "lez": {
-    "bridge_program_id": "0x7232c5496d2b666c7933610ccf1b5280c98dde94ae7c81dbd515496a366941cb",
-    "bridge_image": "0x030e554bab245def77adb144a04ada0bd57a9593109d74b034f6fcbded18878c",
-    "attest_instance": "0xa7b7292ce62f53baa0b88f15fa666c2d026e75077fdc3ce6463e489354eddc31"
+    "bridge_program_id": "0xe415cbc77b3f5c31ef164b057297295b0fb237380a05dd38edecc8a76359d92c",
+    "bridge_image": "0xfda709a30ef31641020ed73d49ab6a66093a20936d6c6b538fa9063691b4149e",
+    "attest_instance": "0xdccea2aea04e053dee46144bdb011b36833040b413b417103f89ea8c06492a21"
   },
-  "post_e2e": {
-    "queue_loosening_setToken_USDT": "0xa6fe9dc5da2d0a5287e729fe40dbeb3293680475b04321ecebc20b7cdc93fcf6",
-    "freezer_cancelTokenChange_USDT": "0x0e6a567f4568f058146b440e311477f2f5656b75c68ddbd07904ff36c3958122",
-    "setFrozen_both_on": "0x0e6297b29af4990d58cb4912afdac0aa52e4f02efc66b97f1d5f2043bfc72913",
-    "setFrozen_both_off": "0x25ebef266181080739592c70b689eb829587fec5e5d6a4b8cee9cb81ed4fc2a1"
+  "releases": {
+    "USDT": {
+      "tx": "0x950f5af470f8725f9c14f146e7b314d55771fc480a6195b326d50811d1963bb8",
+      "block": 12209849,
+      "gas_used": 743249
+    },
+    "ETH": {
+      "tx": "0x756a9bf973f007a2e24c0466c99ca08ea564b435da60570bd36c7a353963556e",
+      "block": 12209860,
+      "gas_used": 691836
+    }
   },
   "superseded": {
+    "2026-11-10 final run (risc0 3.0.5, Groth16 verifier v3.0.0; superseded after GHSA-g6qg-9j8p-7j87; evidence/rfp022-sepolia.md)": {
+      "deployed": "2026-11-10 (development commit 4b680f8 and the final 2026-11-10 run in evidence/rfp022-sepolia.md)",
+      "deployer": "0x637815022De5e015D44BEa0979b217cE44e14Aab",
+      "config_id": "0xd998032a2613a668e0fe647ca4013f9ce74c6eda1843bbac3415474103d07a8e",
+      "groth16_verifier": "0x2a098988600d87650Fb061FfAff08B97149Fa84D",
+      "membership_image_id": "0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821",
+      "BridgeVault": "0x4A9695DBDAbed69F796dE39945A8EF7A35825472",
+      "EcdsaRootVerifier": "0x20F702cC8b15897EbbfE008d110C55c82dAA2876",
+      "TetherToken_mock": "0xBB2bb9aA927b3925dBf1AA92587aA448c8DB4f0e",
+      "lez": {
+        "bridge_program_id": "0x7232c5496d2b666c7933610ccf1b5280c98dde94ae7c81dbd515496a366941cb",
+        "bridge_image": "0x030e554bab245def77adb144a04ada0bd57a9593109d74b034f6fcbded18878c",
+        "attest_instance": "0xa7b7292ce62f53baa0b88f15fa666c2d026e75077fdc3ce6463e489354eddc31"
+      },
+      "post_e2e": {
+        "queue_loosening_setToken_USDT": "0xa6fe9dc5da2d0a5287e729fe40dbeb3293680475b04321ecebc20b7cdc93fcf6",
+        "freezer_cancelTokenChange_USDT": "0x0e6a567f4568f058146b440e311477f2f5656b75c68ddbd07904ff36c3958122",
+        "setFrozen_both_on": "0x0e6297b29af4990d58cb4912afdac0aa52e4f02efc66b97f1d5f2043bfc72913",
+        "setFrozen_both_off": "0x25ebef266181080739592c70b689eb829587fec5e5d6a4b8cee9cb81ed4fc2a1"
+      }
+    },
+    "2026-11-25 attempt (e2e failed in step 9: RISC0_WORK_DIR missing on the prover host, fixed in remote_groth16; never released)": {
+      "BridgeVault": "0x7Ca864Af237cE819c67a6c9781d8DAb42BAf6ECB",
+      "EcdsaRootVerifier": "0x11f12ee3F536aFEA6f192cEc277891c3e73012E6",
+      "TetherToken_mock": "0x05d8eB8a9151c7214471FfB0cf35Ec9775f67A51",
+      "config_id": "0x36552bf4d5d424aad06c12024a402a213aa20efb6b3feced1f64b514037c983e"
+    },
     "2026-11-10 run-1 deployment (e2e failed in step 10, user key underfunded; evidence/rfp022-sepolia.md)": {
       "BridgeVault": "0x7F3707E8c0f6F0a3AAbae62aB29cC77d5A83ae8E",
       "EcdsaRootVerifier": "0x270f931F9b51490D4579c05B9366c1B10f6c4a40",

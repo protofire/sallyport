@@ -12,8 +12,8 @@ bridge-core = { path = "../bridge-core" }
 program-methods = { path = "../program-methods" }
 lc-core = { path = "../lc-core" }
 inclusion = { path = "../inclusion", features = ["host"] }
-lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
-lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+lee = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
 borsh = { version = "1", features = ["derive"] }
 serde_json = "1"
 hex = "0.4"
@@ -22,5 +22,5 @@ alloy-primitives = { version = "1", default-features = false } # keccak for synt
 [dev-dependencies]
 lez-client = { path = "../lez-client", default-features = false } # ONE_TX_MAX_NON_SIGNERS routing limit
 blst = "0.3.16"
-risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "client"] } # sha_syscall test executor
+risc0-zkvm = { version = "=3.1.0", default-features = false, features = ["std", "client"] } # sha_syscall test executor
 sha2 = "0.10"

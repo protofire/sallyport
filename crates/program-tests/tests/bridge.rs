@@ -17,8 +17,8 @@ use lee::public_transaction::{Message, WitnessSet};
 use lee::{
     AccountId, Actor, ActorState, BoundaryStep, DummyOutput, MessageBody, MessageWitness,
     PrivacyPreservingTransaction, ProvingInput, PublicAccountEvidence, PublicExecutionContext,
-    PublicTransaction, Publication, Recipient, RecipientEncryption, RootCall, SenderPresentation,
-    Simulation, TransactionEntry, V03State, ValidatedStateDiff,
+    PublicTransaction, Publication, PublicationMode, Recipient, RecipientEncryption, RootCall,
+    SenderPresentation, Simulation, TransactionEntry, V03State, ValidatedStateDiff,
 };
 use lee_core::account::Account as LeeAccount;
 use lee_core::encryption::{EphemeralSecretKey, ViewingPublicKey};
@@ -252,10 +252,8 @@ fn setup() -> Fx {
 }
 
 fn setup_with(e: TokenEntry) -> Fx {
-    let mut c = Chain::new();
     let bridge = bridge_id();
-    let st = std::mem::replace(&mut c.state, V03State::new());
-    c.state = st.with_named_programs([(bridge, Program::new(BRIDGE_ELF.into()).unwrap())]);
+    let mut c = Chain::with_programs([(bridge, Program::new(BRIDGE_ELF.into()).unwrap())]);
     c.init(&sepolia_init()).unwrap();
     let blk = ElBlock::synthetic(serde_json::Value::Array(
         deposits()
@@ -491,15 +489,21 @@ impl Fx {
             &catalog,
             |_| SenderPresentation::Blinded(blind),
             |_, _| false,
-            |b: &MessageBody| {
-                seals
-                    .iter()
-                    .find(|r| r.address() == b.to.account_id)
-                    .map(|r| RecipientEncryption {
-                        recipient: r.clone(),
-                        esk: EphemeralSecretKey(blind),
+            |bs: &[MessageBody]| {
+                bs.iter()
+                    .map(|b| {
+                        seals
+                            .iter()
+                            .find(|r| r.address() == b.to.account_id)
+                            .map(|r| {
+                                PublicationMode::Sealed(RecipientEncryption {
+                                    recipient: r.clone(),
+                                    esk: EphemeralSecretKey(blind),
+                                })
+                            })
+                            .ok_or_else(|| lee::error::LeeError::InvalidInput("no seal".into()))
                     })
-                    .ok_or_else(|| lee::error::LeeError::InvalidInput("no seal".into()))
+                    .collect()
             },
         )?;
         let message = PpMessage {

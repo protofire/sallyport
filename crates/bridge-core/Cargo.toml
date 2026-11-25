@@ -15,7 +15,7 @@ sha2 = { version = "0.10", default-features = false }
 alloy-primitives = { version = "1", default-features = false }
 attest-program = { path = "../attest-program" }
 consumers = { path = "../consumers" }
-lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
 k256 = { version = "0.13", optional = true }
 
 [dev-dependencies]

@@ -147,8 +147,8 @@ mod submit {
     const POLL: Duration = Duration::from_secs(1);
     const POLL_MAX: u32 = 300;
 
-    // Byte-for-byte the borsh layout of LEZ 1806e87 `lee::public_transaction::Message`
-    // (TransactionMessage<PublicExecution>; PublicExecution's fields inlined) and
+    // Byte-for-byte the borsh layout of LEZ 6aaabe5 `lee::public_transaction::Message`
+    // (TransactionMessage<PublicExecution>; PublicExecution's `root` inlined, `fee` after `nonces`) and
     // `common::LeeTransaction::Public(PublicTransaction)`. Pinned by the test against `lee`.
     #[derive(BorshSerialize)]
     struct FeeDeclaration {
@@ -167,8 +167,8 @@ mod submit {
     struct Message {
         public_context: PublicExecutionContext,
         root: RootCall,
-        fee: Option<FeeDeclaration>,
         nonces: BTreeMap<AccountId, Nonce>,
+        fee: Option<FeeDeclaration>,
         admission_evidence: Vec<Evidence>,
     }
     #[derive(BorshSerialize)]
@@ -605,7 +605,7 @@ mod submit {
             let tx: lee::PublicTransaction = borsh::from_slice(&raw[1..]).unwrap();
             assert_eq!(tx.check_stateless().unwrap(), vec![account_of(&key)]);
             let m = tx.message();
-            let fee = m.execution.fee.unwrap();
+            let fee = m.fee.unwrap();
             assert_eq!(
                 (fee.payer, fee.gas_limit, fee.tip, fee.max_fee),
                 (
@@ -666,8 +666,8 @@ fn hex(b: &[u8]) -> String {
 mod gas_tests {
     use super::*;
 
-    /// LEZ 1806e87 admits a tx into a block only if the block's used exec gas plus its declared
-    /// `gas_limit` is <= MAX_GAS_EXEC (10M, `sequencer/core/src/lib.rs:144`). A 10M Update limit
+    /// LEZ 6aaabe5 admits a tx into a block only if the block's used exec gas plus its declared
+    /// `gas_limit` is <= MAX_GAS_EXEC (10M, `sequencer/core/src/lib.rs:139`). A 10M Update limit
     /// means no other tx can share its block. The limit must cover the measured cycles (executor,
     /// `onetx_cycles_by_non_signers`; that test runs every K under exactly this limit) with margin.
     #[test]

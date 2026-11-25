@@ -2,7 +2,7 @@
 
 Status: D-ATT-8 and D-PRIV-1 accepted; the reference private claim (section 4) is implemented (section 5) and was run live against a real Sepolia deposit to the reference `DepositVault`, as a real LEZ privacy-preserving tx on a local v0.4.0-rc1 sequencer with dev-mode proofs (section 6; [evidence/rfp021-final-run.md](../evidence/rfp021-final-run.md)). The nullifier is the v2 global form `pnf(nk)` (D-PRIV-3, section 3.3). A real (non-dev) LEZ privacy proof of the claim was produced and accepted once in a test: 423 s, 5.0 GB peak on an M2 Max CPU ([BENCHMARKS.md](BENCHMARKS.md) section 3).
 
-Citations: `L/` = LEZ v0.4.0-rc1 source (https://github.com/logos-blockchain/logos-execution-zone at commit 1806e87, the same rev our crates pin). Our code is cited by repo path.
+Citations: `L/` = LEZ v0.4.0-rc1 source (https://github.com/logos-blockchain/logos-execution-zone at commit 1806e87, the rev our crates pinned when this was written; since 2026-11-25 they pin `6aaabe5` and these citations have not been re-checked against it). Our code is cited by repo path.
 
 ## 1. How a LEZ v0.4 private transaction works
 

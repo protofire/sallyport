@@ -401,17 +401,30 @@ impl Default for Chain {
 
 impl Chain {
     pub fn new() -> Self {
+        Self::with_programs([])
+    }
+
+    /// The test chain with `extra` programs seeded at genesis next to the attest program and the
+    /// reference consumers (LEZ only seeds programs through [`lee::GenesisBuilder`]).
+    pub fn with_programs(extra: impl IntoIterator<Item = (AccountId, Program)>) -> Self {
         let attest = attest_program_id();
         let erc20 = AccountId::new([0xE2; 32]);
         let eth = AccountId::new([0xE7; 32]);
         let erc20_inline = AccountId::new([0xE3; 32]);
         let p = |elf: &'static [u8]| Program::new(elf.into()).unwrap();
-        let state = V03State::new().with_named_programs([
-            (attest, p(ATTEST_ELF)),
-            (erc20, p(ERC20_RECEIVER_ELF)),
-            (eth, p(ETH_RECEIVER_ELF)),
-            (erc20_inline, p(ERC20_INLINE_RECEIVER_ELF)),
-        ]);
+        let state = lee::GenesisBuilder::new()
+            .with_programs_at(
+                [
+                    (attest, p(ATTEST_ELF)),
+                    (erc20, p(ERC20_RECEIVER_ELF)),
+                    (eth, p(ETH_RECEIVER_ELF)),
+                    (erc20_inline, p(ERC20_INLINE_RECEIVER_ELF)),
+                ]
+                .into_iter()
+                .chain(extra)
+                .map(|(a, prog)| (a, prog, true)),
+            )
+            .build();
         Self {
             state,
             attest,
@@ -883,9 +896,12 @@ impl Chain {
             |_| SenderPresentation::Blinded(blind),
             |_, _| false,
             |b| {
+                if b.is_empty() {
+                    return Ok(vec![]);
+                }
                 Err(lee::error::LeeError::InvalidInput(format!(
                     "no seal for {:?}",
-                    b.to
+                    b.iter().map(|e| e.to).collect::<Vec<_>>()
                 )))
             },
         )?;

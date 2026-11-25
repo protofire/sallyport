@@ -13,11 +13,11 @@ import {EcdsaRootVerifier} from "../src/EcdsaRootVerifier.sol";
 /// 2. compute cfg (bridge-core) with that vault address and L2's bridge_program_id
 /// 3. CONFIG_ID=… SIGNER_1=… SIGNER_2=… MEMBERSHIP_IMAGE_ID=… EXPECTED_VAULT=… FREEZER=… \
 ///    forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC --broadcast --private-key $SEPOLIA_KEY
-/// Optional: GROTH16 (default the pinned v3.0.0 verifier, never the router), USDT (reuse a deployed mock),
+/// Optional: GROTH16 (default the pinned v3.1.0 verifier, never the router), USDT (reuse a deployed mock),
 /// MIN_TIMELOCK (seconds, default 6 h, bounds 10 min..30 days: floor on the queue time of a loosening `setToken`).
 /// FREEZER must differ from the deployer (the vault admin).
 contract Deploy is Script {
-    address constant GROTH16_V3 = 0x2a098988600d87650Fb061FfAff08B97149Fa84D;
+    address constant GROTH16_V3 = 0x8c915b5071206C6E328BC18529586c513408aB3b;
     uint256 constant MAX_FEE_BPS = 500;
     uint64 constant RELEASE_DELAY = 600;
     uint64 constant WINDOW = 24 hours;

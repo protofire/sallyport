@@ -20,7 +20,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent.parent))
 from sepolia import rpc, receipt  # noqa: E402  (contracts/sepolia.py: retrying JSON-RPC)
 
-GROTH16_V3 = "0x2a098988600d87650Fb061FfAff08B97149Fa84D"
+GROTH16_V3 = "0x8c915b5071206C6E328BC18529586c513408aB3b"
 MAX_FEE_BPS, RELEASE_DELAY, WINDOW, MIN_LEZ_DEPTH = 500, 600, 86400, 10
 D_ETH, D_USDT = 10**16, 100 * 10**6
 

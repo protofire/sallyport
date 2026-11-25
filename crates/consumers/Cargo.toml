@@ -13,5 +13,5 @@ borsh = { version = "1", default-features = false, features = ["derive", "std"] 
 sha2 = { version = "0.10", default-features = false }
 inclusion = { path = "../inclusion" }
 attest-program = { path = "../attest-program" }
-lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21" }
-risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std"], optional = true }
+lee_core = { git = "https://github.com/logos-blockchain/logos-execution-zone", rev = "6aaabe526b5cd4558d8f0506a97dd1b9f456933c" }
+risc0-zkvm = { version = "=3.1.0", default-features = false, features = ["std"], optional = true }

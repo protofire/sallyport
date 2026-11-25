@@ -4,14 +4,14 @@ pragma solidity ^0.8.26;
 import {Test} from "forge-std/Test.sol";
 import {IRiscZeroVerifier, VerificationFailed} from "risc0/IRiscZeroVerifier.sol";
 
-/// Fork test against the pinned Sepolia RiscZeroGroth16Verifier v3.0.0 (never the router), with the real `burn_member` seal from the 2026-11-10 run. Skipped unless `SEPOLIA_RPC` is set (offline/CI runs do not depend on a public
+/// Fork test against the pinned Sepolia RiscZeroGroth16Verifier v3.1.0 (never the router), with a real `burn_member` seal proven 2026-11-25 (risc0 3.1.0). Skipped unless `SEPOLIA_RPC` is set (offline/CI runs do not depend on a public
 /// RPC) and unless `test/fixtures/real_seal.json` exists:
 /// { "imageId": "0x…", "journal": "0x…" (352 bytes), "seal": "0x…" } (camelCase keys).
 contract RealSealTest is Test {
-    address constant GROTH16 = 0x2a098988600d87650Fb061FfAff08B97149Fa84D;
+    address constant GROTH16 = 0x8c915b5071206C6E328BC18529586c513408aB3b;
     string constant FIXTURE = "test/fixtures/real_seal.json";
     /// burn_member ImageID of the reproducible Docker build (README table; vault MEMBERSHIP_IMAGE_ID on Sepolia).
-    bytes32 constant BURN_MEMBER_IMAGE_ID = 0xb75588bcf980443c07957f005de58e9b811dd6f1b7d3795a26899785d78b5821;
+    bytes32 constant BURN_MEMBER_IMAGE_ID = 0x905d2b8ca788d62120ce230e219446f772188d7f3e1023f649a391236a1aa449;
 
     function test_B22_5_realSealOnSepoliaVerifier() public {
         string memory rpc = vm.envOr("SEPOLIA_RPC", string(""));

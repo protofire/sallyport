@@ -6,12 +6,12 @@ Prototype limits. Everything runs on a local LEZ v0.4.0-rc1 standalone sequencer
 
 | Pin | Value | Source |
 |---|---|---|
-| LEZ | v0.4.0-rc1, commit `1806e87` | git dependencies, e.g. `crates/program-methods/attest-guest/Cargo.toml` |
-| zkVM | risc0-zkvm 3.0.5, guests built in Docker | `crates/program-methods` |
+| LEZ | commit `6aaabe5` (v0.4.0-rc3 plus the risc0 3.1.0 bump; figures recorded before 2026-11-25 are from v0.4.0-rc1 `1806e87`) | git dependencies, e.g. `crates/program-methods/attest-guest/Cargo.toml` |
+| zkVM | risc0-zkvm 3.1.0 (GHSA-g6qg-9j8p-7j87 fix), guests built in Docker | `crates/program-methods` |
 | Header and burn trees | sha256 incremental tree, depth 20, capacity 2^20 − 1 leaves | `Frontier`, `crates/attest-program/src/lib.rs` |
 | Ancestry bound | `MAX_ANCESTRY = 448` EL headers | `crates/inclusion/src/lib.rs:101` |
 | One-transaction update | `ONE_TX_MAX_NON_SIGNERS = 170` | `crates/lez-client/src/lib.rs:19` |
-| Sepolia bridge | `BridgeVault 0x4A96…5472`, `EcdsaRootVerifier 0x20F7…2876`, `CONFIG_ID 0xd998…7a8e`, Groth16 verifier v3.0.0 `0x2a09…a84D` | [sepolia.json](../contracts/bridge/deployments/sepolia.json) |
+| Sepolia bridge | `BridgeVault 0x4F5B…5c6d`, `EcdsaRootVerifier 0xB4b9…3D29`, `CONFIG_ID 0x851c…a635`, Groth16 verifier v3.1.0 `0x8c91…aB3b` (2026-11-25; the 2026-11-10 vault used v3.0.0) | [sepolia.json](../contracts/bridge/deployments/sepolia.json) |
 
 ## 1. Overview and component map
 
@@ -33,7 +33,7 @@ RFP-021 is one immutable LEZ program, the attest program, that follows Ethereum'
      IBurnRootVerifier = EcdsaRootVerifier               leaf PDAs, N PDAs, holdings on private accounts
      [INTERIM, CUSTODIAL]                                Burn (private) -> RecordBurn -> leaf PDA
    release(..., seal)                                    Transfer (private) -> sealed Credit
-     RiscZeroGroth16Verifier v3.0.0  <-- burn_member guest (user side, Groth16-wrapped)
+     RiscZeroGroth16Verifier v3.1.0  <-- burn_member guest (user side, Groth16-wrapped)
 ```
 
 | Component | Role |

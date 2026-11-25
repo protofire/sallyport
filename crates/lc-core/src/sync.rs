@@ -111,7 +111,7 @@ fn check_committee_len(c: &SyncCommittee) -> Result<(), ErrorCode> {
     };
     if c.pubkeys.len() == SYNC_COMMITTEE_SIZE
         && c.aggregate_pubkey != INFINITY
-        && !c.pubkeys.iter().any(|k| *k == INFINITY)
+        && !c.pubkeys.contains(&INFINITY)
     {
         Ok(())
     } else {

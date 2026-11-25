@@ -43,7 +43,7 @@ jobs:
           toolchain: "1.98.1"
           components: rustfmt, clippy
 
-      # Guest build (program-methods -> risc0-build): risc0 rust 1.97.0 + cpp toolchain, cargo-risczero/r0vm 3.0.5.
+      # Guest build (program-methods -> risc0-build): risc0 rust 1.97.0 + cpp toolchain, cargo-risczero/r0vm 3.1.0.
       - name: Install risc0 toolchain (rzup)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # rzup reads GITHUB_TOKEN to avoid the unauthenticated api.github.com rate limit
@@ -53,8 +53,8 @@ jobs:
           export PATH="$HOME/.risc0/bin:$PATH"
           rzup install rust 1.97.0
           rzup install cpp 2024.1.5
-          rzup install cargo-risczero 3.0.5
-          rzup install r0vm 3.0.5
+          rzup install cargo-risczero 3.1.0
+          rzup install r0vm 3.1.0
           rzup show
 
       # The macOS-only AR_ override (cc cannot find an `ar` for riscv32im on macOS) is expected to be
@@ -188,8 +188,8 @@ jobs:
           echo "$HOME/.risc0/bin" >> "$GITHUB_PATH"
           export PATH="$HOME/.risc0/bin:$PATH"
           rzup install rust 1.97.0
-          rzup install cargo-risczero 3.0.5
-          rzup install r0vm 3.0.5
+          rzup install cargo-risczero 3.1.0
+          rzup install r0vm 3.1.0
 
       # scripts/image-ids.sh prints "<name> [(note)] <hex>"; the README table rows are "| <name> [(note)] | `<hex>` |".
       - name: ImageIDs (Docker build) vs README table

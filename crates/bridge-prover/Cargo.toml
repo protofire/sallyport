@@ -7,7 +7,7 @@ description = "RFP-022 burn_member release proof: succinct proof, Groth16 wrap (
 [dependencies]
 bridge-core = { path = "../bridge-core" }
 program-methods = { path = "../program-methods" }
-risc0-zkvm = { version = "=3.0.5", default-features = false, features = ["std", "prove", "client"] }
+risc0-zkvm = { version = "=3.1.0", default-features = false, features = ["std", "prove", "client"] }
 borsh = "1"
 anyhow = "1"
 hex = "0.4"

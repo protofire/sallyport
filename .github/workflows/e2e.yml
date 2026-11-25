@@ -15,7 +15,7 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
   RISC0_DEV_MODE: "1"
-  LEZ_REV: 1806e873ea2ac0e1b608aa7cf2f9b6e1fb12db21 # v0.4.0-rc1
+  LEZ_REV: 6aaabe526b5cd4558d8f0506a97dd1b9f456933c # LEZ dev 2026-11-13: v0.4.0-rc3 + risc0 3.1.0 (GHSA-g6qg-9j8p-7j87)
   PAYER: 6iArKUXxhUJqS7kCaPNhwMWt3ro71PDyBj7jwAyE2VQV # genesis key A (public dev key)
   PAYER_KEY: 10a26a9aec7d34b82364eeae45c5294dbb0a764b000b94eeb9b58511dc487c4d
   DEPLOY_KEY: "2121212121212121212121212121212121212121212121212121212121212121" # consumers::ATTEST_DEPLOY_KEY (dev)
@@ -44,8 +44,8 @@ jobs:
           export PATH="$HOME/.risc0/bin:$PATH"
           rzup install rust 1.97.0
           rzup install cpp 2024.1.5
-          rzup install cargo-risczero 3.0.5
-          rzup install r0vm 3.0.5
+          rzup install cargo-risczero 3.1.0
+          rzup install r0vm 3.1.0
           ar_bin=$(find "$HOME/.risc0/toolchains" -name 'riscv32-unknown-elf-ar' -type f | head -n1 || true)
           if [ -n "$ar_bin" ]; then echo "AR_riscv32im_risc0_zkvm_elf=$ar_bin" >> "$GITHUB_ENV"; fi
 
@@ -55,7 +55,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: lez-bin
-          key: lez-bin-${{ runner.os }}-${{ env.LEZ_REV }}
+          key: lez-bin-${{ runner.os }}-${{ env.LEZ_REV }}-f55d961
 
       - name: Cache cargo registry and git
         if: steps.lezbin.outputs.cache-hit != 'true'
@@ -74,6 +74,8 @@ jobs:
           git init lez-src
           git -C lez-src fetch --depth 1 https://github.com/logos-blockchain/logos-execution-zone "$LEZ_REV"
           git -C lez-src checkout --detach FETCH_HEAD
+          # upstream f55d961 (standalone mock): a fresh standalone sequencer at 6aaabe5 exits with ChannelWithoutBlocks
+          curl -fsSL https://github.com/logos-blockchain/logos-execution-zone/commit/f55d961.patch | git -C lez-src apply
           cd lez-src
           cargo build --release --features standalone -p sequencer_service
           cargo build --release -p wallet
