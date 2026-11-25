@@ -1390,6 +1390,14 @@ fn sha(l: &[u8; 32], r: &[u8; 32]) -> [u8; 32] {
         .into()
 }
 
+/// Transaction bytes without the proof. A real succinct receipt carries a random sample of the
+/// recursion circuit's fixed Merkle nodes (FRI queries), so any two real proofs share some 32-byte
+/// windows by chance, across holders as often as within one (checked 2026-11-25); the receipt's
+/// zero knowledge is RISC Zero's guarantee, not something a byte scan can test.
+fn public_bytes(t: &PrivacyPreservingTransaction) -> Vec<u8> {
+    borsh::to_vec(&(&t.message, t.witness_set.signatures_and_public_keys())).unwrap()
+}
+
 /// Claim, transfer and burn by one holder share no public byte beyond what any holder's
 /// claim/transfer/burn also carries (program ids, image ids, token, config-derived PDAs).
 #[test]
@@ -1402,18 +1410,18 @@ fn cross_operation_unlinkable() {
         let t1 = fx.prove_call(h, &c1, vec![]).unwrap();
         fx.c.settle_private(&t1).unwrap();
         h.commit(with(&h.h, fx.cfg, TOK, (D - FEE_MINT) as i128));
-        out.push(borsh::to_vec(&t1).unwrap());
+        out.push(public_bytes(&t1));
         fx.claim(h, deps[1]).unwrap();
         let c2 = host::transfer(fx.cfg, TOK, 10, other.id);
         let t2 = fx.prove_call(h, &c2, vec![other.recipient()]).unwrap();
         fx.c.settle_private(&t2).unwrap();
         h.commit(with(&h.h, fx.cfg, TOK, -10));
-        out.push(borsh::to_vec(&t2).unwrap());
+        out.push(public_bytes(&t2));
         let c3 = fx.burn_call(idx, burn_b(j));
         let t3 = fx.prove_call(h, &c3, vec![]).unwrap();
         fx.c.settle_private(&t3).unwrap();
         h.commit(with(&h.h, fx.cfg, TOK, -((D + FEE_BURN) as i128)));
-        out.push(borsh::to_vec(&t3).unwrap());
+        out.push(public_bytes(&t3));
         out
     };
     let win =
